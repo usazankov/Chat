@@ -9,7 +9,7 @@ ChatNetworkManager::ChatNetworkManager(int socketDescriptor, QObject *parent) : 
     initChat();
 }
 
-ChatResponse * ChatNetworkManager::execute(ChatRequest * request)
+ChatResponse *ChatNetworkManager::execute(ChatRequest *request)
 {
 
     sendData(request);
