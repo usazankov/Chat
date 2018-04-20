@@ -5,6 +5,8 @@
 #include "chatrequest.h"
 #include "chatresponse.h"
 #include <QTcpSocket>
+#include <QHostAddress>
+#include "common_consts.h"
 
 class ChatNetworkManager : public QObject
 {

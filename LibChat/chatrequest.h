@@ -1,24 +1,29 @@
 #ifndef CHATREQUEST_H
 #define CHATREQUEST_H
 
-#include <QObject>
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QJsonArray>
-#include <QJsonValue>
 #include <string>
+#include <QByteArray>
+#include <QDataStream>
+#include <QCryptographicHash>
+#include "libchat_global.h"
 
-class ChatRequest : public QObject
+class LIBCHATSHARED_EXPORT ChatRequest
 {
-    Q_OBJECT
 public:
-    explicit ChatRequest(QObject *parent = nullptr);
-    ChatRequest(const string &key, const string &value, QObject *parent = nullptr);
-    ChatRequest& addProperty(const string &key, const string &value);
-    ChatRequest& addProperty(const ChatRequest &req);
-    ChatRequest& addChild(const string &keyParent, const string &key, const string &value);
-    ChatRequest& addChild(const string &keyParent, const ChatRequest &req);
+    explicit ChatRequest();
+
+    ChatRequest(const QString &key, const QString &value);
+    ChatRequest& addProperty(const QString &key, const QString &value);
+    ChatRequest& addArray(const QString &key, const QStringList &array);
+    ChatRequest& addChildObj(const QString &key, const ChatRequest &req);
+
     ChatRequest& clear();
+    QJsonObject toJson()const;
+    std::string toString()const;
+    QByteArray toRequest()const;
 private:
     QJsonObject json;
 
