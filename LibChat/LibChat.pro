@@ -11,6 +11,11 @@ QT       -= gui
 TARGET = LibChat
 TEMPLATE = lib
 
+MOC_DIR = .moc
+OBJECTS_DIR = .obj
+
+DESTDIR = $$PWD/../libs
+
 DEFINES += LIBCHAT_LIBRARY
 
 # The following define makes your compiler emit warnings if you use
