@@ -17,7 +17,7 @@ OBJECTS_DIR = .obj
 DESTDIR = $$PWD/../libs
 
 DEFINES += LIBCHAT_LIBRARY
-
+DEFINES += USE_QSTRING_CONSTS
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -32,18 +32,22 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         libchat.cpp \
     chatrequest.cpp \
-    chatresponse.cpp \
     chatnetworkmanager.cpp \
-    chatclient.cpp
+    chatclient.cpp \
+    chatrespparser.cpp \
+    models/user.cpp \
+    models/message.cpp
 
 HEADERS += \
         libchat.h \
         libchat_global.h \ 
     chatrequest.h \
-    chatresponse.h \
     common_consts.h \
     chatnetworkmanager.h \
-    chatclient.h
+    chatclient.h \
+    chatrespparser.h \
+    models/user.h \
+    models/message.h
 
 unix {
     target.path = /usr/lib

@@ -1,6 +1,6 @@
 #include "libchat.h"
 
 
-LibChat::LibChat()
+chat::LibChat::LibChat()
 {
 }

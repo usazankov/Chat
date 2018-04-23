@@ -1,36 +1,64 @@
 #include "chatrequest.h"
 
-ChatRequest::ChatRequest()
+chat::ChatRequest::ChatRequest()
 {
 
 }
 
-ChatRequest::ChatRequest(const QString &key, const QString &value)
+chat::ChatRequest::ChatRequest(const QString &key, const QString &value)
 {
     json.insert(key, value);
 }
 
-ChatRequest &ChatRequest::addProperty(const QString &key, const QString &value)
+chat::ChatRequest &chat::ChatRequest::addProperty(const QString &key, const QString &value)
 {
     json.insert(key, value);
     return *this;
 }
 
-ChatRequest &ChatRequest::addArray(const QString &key, const QStringList &array)
+/*
+ChatRequest &ChatRequest::addProperty(const std::string &key, const std::string &value)
+{
+    json.insert(QString::fromStdString(key), QString::fromStdString(value));
+    return *this;
+}
+
+ChatRequest::ChatRequest(const std::string &key, const std::string &value)
+{
+    json.insert(QString::fromStdString(key), QString::fromStdString(value));
+}
+
+ChatRequest &ChatRequest::addArray(const std::string &key, const std::vector<std::string> &array)
 {
     QJsonArray arr;
-    arr.fromStringList(array);
+    for(auto iter : array){
+        arr.push_back(QString::fromStdString(iter));
+    }
+    json.insert(QString::fromStdString(key), arr);
+    return *this;
+}
+
+ChatRequest &ChatRequest::addChildObj(const std::string &key, const ChatRequest &req)
+{
+    json.insert(QString::fromStdString(key), req.toJson());
+    return *this;
+}
+*/
+
+chat::ChatRequest &chat::ChatRequest::addArray(const QString &key, const QStringList &array)
+{
+    QJsonArray arr = QJsonArray::fromStringList(array);
     json.insert(key, arr);
     return *this;
 }
 
-ChatRequest &ChatRequest::addChildObj(const QString &key, const ChatRequest &req)
+chat::ChatRequest &chat::ChatRequest::addChildObj(const QString &key, const ChatRequest &req)
 {
     json.insert(key, req.toJson());
     return *this;
 }
 
-ChatRequest &ChatRequest::clear()
+chat::ChatRequest &chat::ChatRequest::clear()
 {
     for(auto iter = json.begin(); iter != json.end(); iter++){
         json.erase(iter);
@@ -38,19 +66,19 @@ ChatRequest &ChatRequest::clear()
     return *this;
 }
 
-QJsonObject ChatRequest::toJson() const
+QJsonObject chat::ChatRequest::toJson() const
 {
     return json;
 }
 
-std::string ChatRequest::toString() const
+std::string chat::ChatRequest::toString() const
 {
     QJsonDocument doc(json);
     QString strJson(doc.toJson(QJsonDocument::Compact));
     return strJson.toStdString();
 }
 
-QByteArray ChatRequest::toRequest() const
+QByteArray chat::ChatRequest::toRequest() const
 {
     QByteArray res;
     QJsonDocument doc(json);

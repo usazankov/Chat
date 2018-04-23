@@ -1,53 +1,78 @@
 #include "chatnetworkmanager.h"
 
-ChatNetworkManager::ChatNetworkManager(int socketDescriptor, QObject *parent) : QObject(parent)
+chat::ChatNetworkManager::ChatNetworkManager(qintptr socketDescriptor, QObject *parent) : QObject(parent)
 {
     socket = new QTcpSocket(this);
     if(socketDescriptor){
         socket->setSocketDescriptor(socketDescriptor);
     }
     initChat();
+    currentReq = nullptr;
 }
 
-ChatResponse *ChatNetworkManager::execute(ChatRequest *request)
+void chat::ChatNetworkManager::execute(ChatRequest *request)
 {
-
-    sendData(request);
+    socket->write(request->toRequest());
 }
 
-void ChatNetworkManager::connectToChat(const QHostAddress &address, quint16 port)
+void chat::ChatNetworkManager::connectToChat(const QHostAddress &address, quint16 port)
 {
     this->address = address;
     this->port = port;
     socket->connectToHost(address, port);
 }
 
-void ChatNetworkManager::disconnectChat()
+void chat::ChatNetworkManager::disconnectChat()
 {
     socket->disconnectFromHost();
 }
 
-void ChatNetworkManager::onSocketConnected()
+void chat::ChatNetworkManager::onSocketConnected()
 {
 
 }
 
-void ChatNetworkManager::onSocketDisconnected()
+void chat::ChatNetworkManager::onSocketDisconnected()
 {
 
 }
 
-void ChatNetworkManager::onSocketReadyRead()
+void chat::ChatNetworkManager::onSocketReadyRead()
+{
+    QDataStream in(socket);
+    int size = 0;
+    //если считываем новый блок первые 4 байта это его размер
+    if (blockSize == 0) {
+        //если пришло меньше 4 байт ждем пока будет 4 байта
+        if (socket->bytesAvailable() < (int)sizeof(quint32))
+            return;
+        //считываем размер (4 байта)
+        in >> blockSize;
+        qDebug() << "_blockSize now " << blockSize;
+    }
+    //ждем пока блок придет полностью
+    if (socket->bytesAvailable() < blockSize + chat::sizeHash)
+        return;
+    else{
+        size = blockSize;
+        //можно принимать новый блок
+        blockSize = 0;
+    }
+    QByteArray array(size, Qt::Uninitialized);
+    in >> array;
+    QByteArray hash(chat::sizeHash, Qt::Uninitialized);
+    in >> hash;
+    // Вычисляем хэш и сравниваем
+    //...
+    emit dataReceived(QJsonDocument::fromBinaryData(array).object());
+}
+
+void chat::ChatNetworkManager::onSocketDisplayError(QAbstractSocket::SocketError socketError)
 {
 
 }
 
-void ChatNetworkManager::onSocketDisplayError(QAbstractSocket::SocketError socketError)
-{
-
-}
-
-void ChatNetworkManager::initChat()
+void chat::ChatNetworkManager::initChat()
 {
     if(socket->state() != QAbstractSocket::ConnectedState){ //Заменить на более правильное условие проверки есть ли соединение по сокету
         socket->connectToHost(address, port);
@@ -55,7 +80,7 @@ void ChatNetworkManager::initChat()
 
 }
 
-void ChatNetworkManager::sendData(ChatRequest *request)
+void chat::ChatNetworkManager::sendData(ChatRequest *request)
 {
 
 }

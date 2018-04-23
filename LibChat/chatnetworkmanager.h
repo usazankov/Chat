@@ -3,21 +3,21 @@
 
 #include <QObject>
 #include "chatrequest.h"
-#include "chatresponse.h"
 #include <QTcpSocket>
 #include <QHostAddress>
 #include "common_consts.h"
-
+namespace chat {
+    static const int sizeHash = 16;
 class ChatNetworkManager : public QObject
 {
     Q_OBJECT
 public:
     explicit ChatNetworkManager(int socketDescriptor = 0, QObject *parent = nullptr);
-    virtual ChatResponse *execute(ChatRequest *request); // Здесь освободить память для ChatResponse * нужно вызывающему методу
+    virtual void execute(ChatRequest *request); // Здесь освободить память для ChatResponse * нужно вызывающему методу
     void connectToChat(const QHostAddress &address, quint16 port);
     void disconnectChat();
 signals:
-
+    void dataReceived(const QJsonObject &obj);
 private slots:
     void onSocketConnected();
     void onSocketDisconnected();
@@ -26,10 +26,12 @@ private slots:
 private:
     void initChat();
     void sendData(ChatRequest * request);
+    ChatRequest *currentReq;
     QTcpSocket *socket;
-    quint16 blockSize;
+    quint32 blockSize;
     QHostAddress address;
     quint16 port;
 };
 
+}
 #endif // CHATNETWORKMANAGER_H

@@ -2,6 +2,7 @@
 #define CHATCLIENT_H
 
 #include <QObject>
+namespace chat {
 
 class ChatClient : public QObject
 {
@@ -14,4 +15,5 @@ signals:
 public slots:
 };
 
+}
 #endif // CHATCLIENT_H
