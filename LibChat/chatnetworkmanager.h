@@ -12,8 +12,8 @@ class ChatNetworkManager : public QObject
 {
     Q_OBJECT
 public:
-    explicit ChatNetworkManager(int socketDescriptor = 0, QObject *parent = nullptr);
-    virtual void execute(ChatRequest *request); // Здесь освободить память для ChatResponse * нужно вызывающему методу
+    explicit ChatNetworkManager(qintptr socketDescriptor = 0, QObject *parent = nullptr);
+    virtual void execute(ChatRequest *request);
     void connectToChat(const QHostAddress &address, quint16 port);
     void disconnectChat();
 signals:
