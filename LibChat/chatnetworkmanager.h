@@ -13,11 +13,18 @@ class ChatNetworkManager : public QObject
     Q_OBJECT
 public:
     explicit ChatNetworkManager(qintptr socketDescriptor = 0, QObject *parent = nullptr);
-    virtual void execute(ChatRequest *request);
+    virtual bool execute(ChatRequest *request); // true - успешное выполнение, false - ошибка
     void connectToChat(const QHostAddress &address, quint16 port);
     void disconnectChat();
+    enum ErrorNetwork{
+        NoError = 0,
+        CommunicationError = 1, //Проблемы со связью
+        HashError = 2, //Ошибка вычисления хэша
+    };
+    Q_ENUM(ErrorNetwork)
 signals:
     void dataReceived(const QJsonObject &obj);
+    void error(ErrorNetwork err);
 private slots:
     void onSocketConnected();
     void onSocketDisconnected();
@@ -34,4 +41,5 @@ private:
 };
 
 }
+Q_DECLARE_METATYPE(chat::ChatNetworkManager::ErrorNetwork)
 #endif // CHATNETWORKMANAGER_H

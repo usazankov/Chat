@@ -36,7 +36,9 @@ SOURCES += \
     chatclient.cpp \
     chatrespparser.cpp \
     models/user.cpp \
-    models/message.cpp
+    models/message.cpp \
+    ichatmodel.cpp \
+    chatmodel.cpp
 
 HEADERS += \
         libchat.h \
@@ -47,7 +49,9 @@ HEADERS += \
     chatclient.h \
     chatrespparser.h \
     models/user.h \
-    models/message.h
+    models/message.h \
+    ichatmodel.h \
+    chatmodel.h
 
 unix {
     target.path = /usr/lib

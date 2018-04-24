@@ -10,9 +10,14 @@ chat::ChatNetworkManager::ChatNetworkManager(qintptr socketDescriptor, QObject *
     currentReq = nullptr;
 }
 
-void chat::ChatNetworkManager::execute(ChatRequest *request)
+bool chat::ChatNetworkManager::execute(ChatRequest *request)
 {
-    socket->write(request->toRequest());
+    QByteArray array = request->toRequest();
+    int size = array.size();
+    if(socket->write(array) == size){
+        return true;
+    }
+    return false;
 }
 
 void chat::ChatNetworkManager::connectToChat(const QHostAddress &address, quint16 port)
@@ -64,6 +69,7 @@ void chat::ChatNetworkManager::onSocketReadyRead()
     in >> hash;
     // Вычисляем хэш и сравниваем
     //...
+    // Если все в порядке, то оповещаем о приеме новых данных
     emit dataReceived(QJsonDocument::fromBinaryData(array).object());
 }
 
@@ -77,10 +83,5 @@ void chat::ChatNetworkManager::initChat()
     if(socket->state() != QAbstractSocket::ConnectedState){ //Заменить на более правильное условие проверки есть ли соединение по сокету
         socket->connectToHost(address, port);
     }
-
-}
-
-void chat::ChatNetworkManager::sendData(ChatRequest *request)
-{
 
 }
