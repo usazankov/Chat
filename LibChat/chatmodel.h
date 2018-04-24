@@ -2,8 +2,9 @@
 #define CHATMODEL_H
 
 #include <QObject>
+#include "ichatmodel.h"
 
-class ChatModel : public QObject
+class ChatModel : public IChatModel
 {
     Q_OBJECT
 public:

@@ -1,16 +1,21 @@
-#include "chatnetworkmanager.h"
+#include "chattcpmanager.h"
 
-chat::ChatNetworkManager::ChatNetworkManager(qintptr socketDescriptor, QObject *parent) : QObject(parent)
+chat::ChatTCPManager::ChatTCPManager(qintptr socketDescriptor, QObject *parent) : IChatNetworkManager(parent)
 {
     socket = new QTcpSocket(this);
     if(socketDescriptor){
         socket->setSocketDescriptor(socketDescriptor);
     }
     initChat();
-    currentReq = nullptr;
 }
 
-bool chat::ChatNetworkManager::execute(ChatRequest *request)
+chat::ChatTCPManager::ChatTCPManager(QObject *parent) : IChatNetworkManager(parent)
+{
+    socket = new QTcpSocket(this);
+    initChat();
+}
+
+bool chat::ChatTCPManager::execute(ChatRequest *request)
 {
     QByteArray array = request->toRequest();
     int size = array.size();
@@ -20,29 +25,29 @@ bool chat::ChatNetworkManager::execute(ChatRequest *request)
     return false;
 }
 
-void chat::ChatNetworkManager::connectToChat(const QHostAddress &address, quint16 port)
+void chat::ChatTCPManager::connectToChat(const QHostAddress &address, quint16 port)
 {
     this->address = address;
     this->port = port;
     socket->connectToHost(address, port);
 }
 
-void chat::ChatNetworkManager::disconnectChat()
+void chat::ChatTCPManager::disconnectChat()
 {
     socket->disconnectFromHost();
 }
 
-void chat::ChatNetworkManager::onSocketConnected()
+void chat::ChatTCPManager::onSocketConnected()
 {
 
 }
 
-void chat::ChatNetworkManager::onSocketDisconnected()
+void chat::ChatTCPManager::onSocketDisconnected()
 {
 
 }
 
-void chat::ChatNetworkManager::onSocketReadyRead()
+void chat::ChatTCPManager::onSocketReadyRead()
 {
     QDataStream in(socket);
     int size = 0;
@@ -73,12 +78,12 @@ void chat::ChatNetworkManager::onSocketReadyRead()
     emit dataReceived(QJsonDocument::fromBinaryData(array).object());
 }
 
-void chat::ChatNetworkManager::onSocketDisplayError(QAbstractSocket::SocketError socketError)
+void chat::ChatTCPManager::onSocketDisplayError(QAbstractSocket::SocketError socketError)
 {
 
 }
 
-void chat::ChatNetworkManager::initChat()
+void chat::ChatTCPManager::initChat()
 {
     if(socket->state() != QAbstractSocket::ConnectedState){ //Заменить на более правильное условие проверки есть ли соединение по сокету
         socket->connectToHost(address, port);

@@ -2,6 +2,7 @@
 #define ICHATMODEL_H
 
 #include <QObject>
+#include <QAbstractListModel>
 
 class IChatModel : public QObject
 {
@@ -9,6 +10,10 @@ class IChatModel : public QObject
 public:
     explicit IChatModel(QObject *parent = nullptr);
 
+    //Получить список пользователей
+    virtual QAbstractListModel* usersListModel() = 0;
+    //Получить список сообщений
+    virtual QAbstractListModel* messagesListModel() = 0;
 signals:
 
 public slots:

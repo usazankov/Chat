@@ -32,26 +32,28 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         libchat.cpp \
     chatrequest.cpp \
-    chatnetworkmanager.cpp \
     chatclient.cpp \
     chatrespparser.cpp \
     models/user.cpp \
     models/message.cpp \
     ichatmodel.cpp \
-    chatmodel.cpp
+    chatmodel.cpp \
+    ichatnetworkmanager.cpp \
+    chattcpmanager.cpp
 
 HEADERS += \
         libchat.h \
         libchat_global.h \ 
     chatrequest.h \
     common_consts.h \
-    chatnetworkmanager.h \
     chatclient.h \
     chatrespparser.h \
     models/user.h \
     models/message.h \
     ichatmodel.h \
-    chatmodel.h
+    chatmodel.h \
+    ichatnetworkmanager.h \
+    chattcpmanager.h
 
 unix {
     target.path = /usr/lib

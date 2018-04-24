@@ -1,6 +1,6 @@
 #include "chatmodel.h"
 
-ChatModel::ChatModel(QObject *parent) : QObject(parent)
+ChatModel::ChatModel(QObject *parent) : IChatModel(parent)
 {
 
 }
