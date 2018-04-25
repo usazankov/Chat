@@ -25,26 +25,27 @@ bool chat::ChatTCPManager::execute(ChatRequest *request)
     return false;
 }
 
-void chat::ChatTCPManager::connectToChat(const QHostAddress &address, quint16 port)
+void chat::ChatTCPManager::connectToHost(const QHostAddress &address, quint16 port)
 {
     this->address = address;
     this->port = port;
+    emit stateChanged(Connecting);
     socket->connectToHost(address, port);
 }
 
-void chat::ChatTCPManager::disconnectChat()
+void chat::ChatTCPManager::disconnectHost()
 {
     socket->disconnectFromHost();
 }
 
 void chat::ChatTCPManager::onSocketConnected()
 {
-
+    emit stateChanged(Online);
 }
 
 void chat::ChatTCPManager::onSocketDisconnected()
 {
-
+    emit stateChanged(Offline);
 }
 
 void chat::ChatTCPManager::onSocketReadyRead()

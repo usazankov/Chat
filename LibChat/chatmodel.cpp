@@ -1,6 +1,16 @@
 #include "chatmodel.h"
 
-ChatModel::ChatModel(QObject *parent) : IChatModel(parent)
+chat::ChatModel::ChatModel(QObject *parent) : IChatModel(parent)
+{
+
+}
+
+QAbstractListModel *chat::ChatModel::usersListModel()
+{
+
+}
+
+QAbstractListModel *chat::ChatModel::messagesListModel()
 {
 
 }

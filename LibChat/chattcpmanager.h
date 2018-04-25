@@ -18,8 +18,8 @@ public:
 
     //IChatNetworkManager interface
     bool execute(ChatRequest *request); // true - успешное выполнение, false - ошибка
-    void connectToChat(const QHostAddress &address, quint16 port);
-    void disconnectChat();
+    void connectToHost(const QHostAddress &address, quint16 port);
+    void disconnectHost();
 
 signals:
 

@@ -39,7 +39,10 @@ SOURCES += \
     ichatmodel.cpp \
     chatmodel.cpp \
     ichatnetworkmanager.cpp \
-    chattcpmanager.cpp
+    chattcpmanager.cpp \
+    commands/chatcommand.cpp \
+    commands/comgetusers.cpp \
+    commands/comsendmessage.cpp
 
 HEADERS += \
         libchat.h \
@@ -53,7 +56,10 @@ HEADERS += \
     ichatmodel.h \
     chatmodel.h \
     ichatnetworkmanager.h \
-    chattcpmanager.h
+    chattcpmanager.h \
+    commands/chatcommand.h \
+    commands/comgetusers.h \
+    commands/comsendmessage.h
 
 unix {
     target.path = /usr/lib

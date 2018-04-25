@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "ichatmodel.h"
+namespace chat {
 
 class ChatModel : public IChatModel
 {
@@ -10,9 +11,17 @@ class ChatModel : public IChatModel
 public:
     explicit ChatModel(QObject *parent = nullptr);
 
+    // IChatModel interface
+    QAbstractListModel *usersListModel();
+    QAbstractListModel *messagesListModel();
+private:
+
 signals:
 
 public slots:
+
+
 };
 
+}
 #endif // CHATMODEL_H
