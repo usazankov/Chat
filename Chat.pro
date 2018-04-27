@@ -2,4 +2,5 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     LibChat \
-    TestApp
+    TestApp \
+    Server

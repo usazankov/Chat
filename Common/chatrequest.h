@@ -23,12 +23,6 @@ public:
     ChatRequest& addArray(const QString &key, const QStringList &array);
     ChatRequest& addChildObj(const QString &key, const ChatRequest &req);
 
-    //STL compatibility
-    /*ChatRequest(const std::string &key, const std::string &value);
-    ChatRequest& addProperty(const std::string &key, const std::string &value);
-    ChatRequest& addArray(const std::string &key, const std::vector<std::string> &array);
-    ChatRequest& addChildObj(const std::string &key, const ChatRequest &req);*/
-
     ChatRequest& clear();
     QJsonObject toJson()const;
     std::string toString()const;
