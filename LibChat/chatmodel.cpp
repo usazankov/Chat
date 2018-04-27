@@ -12,5 +12,5 @@ QAbstractListModel *chat::ChatModel::usersListModel()
 
 QAbstractListModel *chat::ChatModel::messagesListModel()
 {
-
+    return ms_ptr.data();
 }

@@ -2,23 +2,36 @@
 #define MESSAGELISTMODEL_H
 
 #include <QAbstractListModel>
+#include <QVector>
+#include "message.h"
+namespace chat {
 
 class MessageListModel : public QAbstractListModel
 {
     Q_OBJECT
-
+    enum Roles{
+        FromRole = Qt::UserRole + 1,
+        BodyRole,
+        DateRole,
+        TimeRole
+    };
 public:
     explicit MessageListModel(QObject *parent = nullptr);
-
-    // Header:
-    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
     // Basic functionality:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-private:
-};
+    QHash<int, QByteArray> roleNames() const override;
 
+    void addMessage(const Message &message);
+
+private:
+    QVector<Message> messages;
+    QHash<int, QByteArray> roles;
+    void initRoleNames();
+
+};
+}
 #endif // MESSAGELISTMODEL_H

@@ -1,30 +1,55 @@
 #include "messagelistmodel.h"
 
-MessageListModel::MessageListModel(QObject *parent)
+chat::MessageListModel::MessageListModel(QObject *parent)
     : QAbstractListModel(parent)
 {
+
 }
 
-QVariant MessageListModel::headerData(int section, Qt::Orientation orientation, int role) const
+int chat::MessageListModel::rowCount(const QModelIndex &parent) const
 {
-    // FIXME: Implement me!
+    return messages.size();
 }
 
-int MessageListModel::rowCount(const QModelIndex &parent) const
-{
-    // For list models only the root node (an invalid parent) should return the list's size. For all
-    // other (valid) parents, rowCount() should return 0 so that it does not become a tree model.
-    if (parent.isValid())
-        return 0;
-
-    // FIXME: Implement me!
-}
-
-QVariant MessageListModel::data(const QModelIndex &index, int role) const
+QVariant chat::MessageListModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
         return QVariant();
 
-    // FIXME: Implement me!
+    int row = index.row();
+    auto message = messages[row];
+    switch (role) {
+    case FromRole:
+        return message.getUser();
+    case BodyRole:
+        return message.getTextMessage();
+    case DateRole:
+        return message.getDateTime().date();
+    case TimeRole:
+        return message.getDateTime().time();
+    default:
+        break;
+    }
     return QVariant();
+}
+
+void chat::MessageListModel::initRoleNames()
+{
+    roles[FromRole] = "from";
+    roles[BodyRole] = "body";
+    roles[DateRole] = "date";
+    roles[TimeRole] = "time";
+}
+
+QHash<int, QByteArray> chat::MessageListModel::roleNames() const
+{
+    return roles;
+}
+
+void chat::MessageListModel::addMessage(const chat::Message &message)
+{
+    int index = messages.size() - 1;
+    beginInsertRows(QModelIndex(), index, index);
+    messages.push_back(message);
+    endInsertRows();
 }
