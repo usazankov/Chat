@@ -1,5 +1,4 @@
 #include "chatclient.h"
-#include "common_consts.h"
 
 chat::ChatClient::ChatClient(QObject *parent) : QObject(parent)
 {
@@ -9,7 +8,7 @@ chat::ChatClient::ChatClient(QObject *parent) : QObject(parent)
     m_currentState = IChatNetworkManager::Offline;
 }
 
-chat::ChatClient::ChatClient(chat::IChatNetworkManager *networkManager, QObject *parent): networkManager(networkManager), QObject(parent)
+chat::ChatClient::ChatClient(chat::IChatNetworkManager *networkManager, QObject *parent): QObject(parent), networkManager(networkManager)
 {
     m_currentState = IChatNetworkManager::Offline;
     connect(networkManager,SIGNAL(dataReceived(QJsonObject)),this,SLOT(updateChat(QJsonObject)));

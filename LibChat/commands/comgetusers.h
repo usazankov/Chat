@@ -1,16 +1,18 @@
 #ifndef COMGETUSERS_H
 #define COMGETUSERS_H
 
-#include <QObject>
 #include "chatcommand.h"
-#include "ichatmodel.h"
+#include "chatclient.h"
 
 namespace chat {
-
+class ChatClient;
 class ComGetUsers : public ChatCommand
 {
 public:
     ComGetUsers();
+
+    // ChatCommand interface
+    void execute();
 };
 }
 #endif // COMGETUSERS_H

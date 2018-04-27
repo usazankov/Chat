@@ -1,6 +1,11 @@
 #include "comgetusers.h"
 
-chat::ComGetUsers::ComGetUsers()
+chat::ComGetUsers::ComGetUsers() : ChatCommand()
 {
-    IChatModel *model = client->getModel();
+
+}
+
+void chat::ComGetUsers::execute()
+{
+
 }

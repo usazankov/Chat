@@ -1,9 +1,6 @@
 #ifndef CHATCOMMAND_H
 #define CHATCOMMAND_H
 
-#include <QObject>
-#include "chatclient.h"
-
 namespace chat {
 class ChatClient;
 class ChatCommand
@@ -17,9 +14,6 @@ protected:
     ChatClient *client;
 private:
 
-signals:
-
-public slots:
 };
 
 }

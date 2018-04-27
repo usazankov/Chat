@@ -6,12 +6,12 @@
 #include "chatmodel.h"
 #include "ichatnetworkmanager.h"
 #include "chattcpmanager.h"
-#include "commands/chatcommand.h"
 #include "commands/comgetusers.h"
 #include "commands/comsendmessage.h"
 
 namespace chat {
 class ChatCommand;
+
 class ChatClient : public QObject
 {
     Q_OBJECT

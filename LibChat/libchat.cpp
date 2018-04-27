@@ -8,7 +8,7 @@ chat::LibChat::LibChat()
 
 chat::LibChat::connectToChat(const QHostAddress &address, quint16 port)
 {
-    client->getNetworkManager()->connectToHost(addres, port);
+    client->getNetworkManager()->connectToHost(address, port);
 }
 
 chat::LibChat::disconnectFromChat()

@@ -24,6 +24,7 @@ DEFINES += USE_QSTRING_CONSTS
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 
+relative_path_ = $$PWD
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
@@ -31,7 +32,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         libchat.cpp \
-    chatrequest.cpp \
     chatclient.cpp \
     chatrespparser.cpp \
     models/user.cpp \
@@ -43,13 +43,12 @@ SOURCES += \
     commands/chatcommand.cpp \
     commands/comgetusers.cpp \
     commands/comsendmessage.cpp \
-    models/messagelistmodel.cpp
+    models/messagelistmodel.cpp \
+    ../Common/chatrequest.cpp
 
 HEADERS += \
         libchat.h \
         libchat_global.h \ 
-    chatrequest.h \
-    common_consts.h \
     chatclient.h \
     chatrespparser.h \
     models/user.h \
@@ -61,7 +60,9 @@ HEADERS += \
     commands/chatcommand.h \
     commands/comgetusers.h \
     commands/comsendmessage.h \
-    models/messagelistmodel.h
+    models/messagelistmodel.h \
+    ../Common/chatrequest.h \
+    ../Common/common_consts.h
 
 unix {
     target.path = /usr/lib

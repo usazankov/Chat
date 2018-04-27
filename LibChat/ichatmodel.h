@@ -17,10 +17,10 @@ public:
     virtual ~IChatModel(){}
 
     //Получить список пользователей
-    virtual QAbstractListModel* usersListModel(int idRoom) = 0;
+    virtual QAbstractListModel* usersListModel() = 0;
 
     //Получить список сообщений
-    virtual QAbstractListModel* messagesListModel(int idRoom) = 0;
+    virtual QAbstractListModel* messagesListModel() = 0;
 
     IChatNetworkManager::NetworkState state() const;
 

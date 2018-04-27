@@ -1,6 +1,6 @@
 #include <QCoreApplication>
-#include "chatrequest.h"
-#include "common_consts.h"
+#include "../Common/chatrequest.h"
+#include "../Common/common_consts.h"
 #include <iostream>
 #include <QStringList>
 

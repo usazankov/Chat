@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QHostAddress>
-#include "chatrequest.h"
+#include "../Common/chatrequest.h"
 namespace chat {
     static const int sizeHash = 16;
 class IChatNetworkManager : public QObject

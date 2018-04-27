@@ -3,10 +3,10 @@
 
 #include <QObject>
 #include "ichatnetworkmanager.h"
-#include "chatrequest.h"
+#include "../Common/chatrequest.h"
 #include <QTcpSocket>
 #include <QHostAddress>
-#include "common_consts.h"
+#include "../Common/common_consts.h"
 namespace chat {
 
 class ChatTCPManager : public IChatNetworkManager
