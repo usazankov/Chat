@@ -3,6 +3,7 @@
 #include "../Common/common_consts.h"
 #include <iostream>
 #include <QStringList>
+#include "testclient.h"
 
 using namespace std;
 int main(int argc, char *argv[])
@@ -18,6 +19,6 @@ int main(int argc, char *argv[])
     list << "a" << "b" << "c" << "d" << "e";
     req1.addArray("Arr", list);
     cout << req1.toString();
-    req.clear();
+    TestClient cl;
     return a.exec();
 }
