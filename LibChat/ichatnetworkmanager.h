@@ -6,7 +6,7 @@
 #include "../Common/chatrequest.h"
 namespace chat {
     static const int sizeHash = 16;
-class IChatNetworkManager : public QObject
+class LIBCHATSHARED_EXPORT IChatNetworkManager : public QObject
 {
     Q_OBJECT
 public:
@@ -19,17 +19,15 @@ public:
         Online,
         Connecting
     };
-    Q_ENUM(NetworkState)
     enum ErrorNetwork{
         NoError = 0,
         CommunicationError = 1, //Проблемы со связью
         HashError = 2, //Ошибка вычисления хэша
     };
-    Q_ENUM(ErrorNetwork)
 signals:
     void dataReceived(const QJsonObject &obj);
-    void stateChanged(IChatNetworkManager::NetworkState newState);
-    void error(IChatNetworkManager::ErrorNetwork err);
+    void stateChanged(chat::IChatNetworkManager::NetworkState newState);
+    void error(chat::IChatNetworkManager::ErrorNetwork err);
 public slots:
 };
 }

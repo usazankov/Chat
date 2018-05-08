@@ -79,15 +79,16 @@ void chat::ChatTCPManager::onSocketReadyRead()
     emit dataReceived(QJsonDocument::fromBinaryData(array).object());
 }
 
-void chat::ChatTCPManager::onSocketDisplayError(QAbstractSocket::SocketError socketError)
+void chat::ChatTCPManager::onSocketError(QAbstractSocket::SocketError err)
 {
-
+    qDebug() << err;
+    emit error(chat::ChatTCPManager::CommunicationError);
 }
 
 void chat::ChatTCPManager::initChat()
 {
-    if(socket->state() != QAbstractSocket::ConnectedState){ //Заменить на более правильное условие проверки есть ли соединение по сокету
-        socket->connectToHost(address, port);
-    }
-
+    connect(socket, SIGNAL(connected()),this, SLOT(onSocketConnected()));
+    connect(socket, SIGNAL(readyRead()), this, SLOT(onSocketReadyRead()));
+    connect(socket, SIGNAL(disconnected()), this, SLOT(onSocketDisconnected()));
+    connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(onSocketError(QAbstractSocket::SocketError)));
 }

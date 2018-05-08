@@ -6,23 +6,23 @@ chat::LibChat::LibChat()
     client = new ChatClient(new ChatTCPManager);
 }
 
-chat::LibChat::connectToChat(const QHostAddress &address, quint16 port)
+void chat::LibChat::connectToChat(const QHostAddress &address, quint16 port)
 {
     client->getNetworkManager()->connectToHost(address, port);
 }
 
-chat::LibChat::disconnectFromChat()
+void chat::LibChat::disconnectFromChat()
 {
     client->getNetworkManager()->disconnectHost();
 }
 
-chat::LibChat::getUsers()
+void chat::LibChat::getUsers()
 {
     ComGetUsers com;
     client->executeCommand(&com);
 }
 
-chat::LibChat::sendMessage(const QString &message)
+void chat::LibChat::sendMessage(const QString &message)
 {
     ComSendMessage com;
     client->executeCommand(&com);
@@ -33,7 +33,13 @@ chat::IChatModel *chat::LibChat::model()
     return client->getModel();
 }
 
-chat::LibChat::deleteChat()
+void chat::LibChat::deleteChat()
 {
     client->deleteLater();
 }
+
+chat::ChatClient *chat::LibChat::getChatClient()
+{
+    return client;
+}
+

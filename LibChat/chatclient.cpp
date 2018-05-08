@@ -10,9 +10,10 @@ chat::ChatClient::ChatClient(QObject *parent) : QObject(parent)
 
 chat::ChatClient::ChatClient(chat::IChatNetworkManager *networkManager, QObject *parent): QObject(parent), networkManager(networkManager)
 {
+    model = new ChatModel(this);
     m_currentState = IChatNetworkManager::Offline;
     connect(networkManager,SIGNAL(dataReceived(QJsonObject)),this,SLOT(updateChat(QJsonObject)));
-    connect(networkManager,SIGNAL(stateChanged(IChatNetworkManager::NetworkState)),SLOT(onStateChanged(IChatNetworkManager::NetworkState)));
+    connect(networkManager,SIGNAL(stateChanged(chat::IChatNetworkManager::NetworkState)),SLOT(onStateChanged(chat::IChatNetworkManager::NetworkState)));
 }
 
 chat::ChatClient::~ChatClient()
@@ -57,7 +58,7 @@ void chat::ChatClient::onStateChanged(chat::IChatNetworkManager::NetworkState st
 {
     m_currentState = state;
     if(model)
-        model->stateChanged(state);
+        model->setState(state);
 }
 
 chat::ChatModelUpdater::ChatModelUpdater(chat::ChatClient *client)

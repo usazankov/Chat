@@ -23,12 +23,12 @@ public:
     Q_INVOKABLE IChatModel* model();
 
     //Controller
-    Q_INVOKABLE connectToChat(const QHostAddress &address, quint16 port);
-    Q_INVOKABLE disconnectFromChat();
-    Q_INVOKABLE getUsers();
-    Q_INVOKABLE sendMessage(const QString &message);
-    Q_INVOKABLE deleteChat();
-
+    Q_INVOKABLE void connectToChat(const QHostAddress &address, quint16 port);
+    Q_INVOKABLE void disconnectFromChat();
+    Q_INVOKABLE void getUsers();
+    Q_INVOKABLE void sendMessage(const QString &message);
+    Q_INVOKABLE void deleteChat();
+    Q_INVOKABLE ChatClient* getChatClient();
 };
 }
 #endif // LIBCHAT_H

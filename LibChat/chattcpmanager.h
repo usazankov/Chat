@@ -27,7 +27,7 @@ private slots:
     void onSocketConnected();
     void onSocketDisconnected();
     void onSocketReadyRead();
-    void onSocketDisplayError(QAbstractSocket::SocketError socketError);
+    void onSocketError(QAbstractSocket::SocketError);
 private:
     void initChat();
     void sendData(ChatRequest * request);

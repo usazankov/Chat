@@ -9,7 +9,7 @@ namespace chat {
 class IChatModel : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(IChatNetworkManager::NetworkState state READ state WRITE setState NOTIFY stateChanged)
+    Q_PROPERTY(chat::IChatNetworkManager::NetworkState state READ state WRITE setState NOTIFY stateChanged)
 
 public:
     explicit IChatModel(QObject *parent = nullptr);
@@ -22,16 +22,16 @@ public:
     //Получить список сообщений
     virtual QAbstractListModel* messagesListModel() = 0;
 
-    IChatNetworkManager::NetworkState state() const;
+    chat::IChatNetworkManager::NetworkState state() const;
 
 private:
-    IChatNetworkManager::NetworkState m_state;
+    chat::IChatNetworkManager::NetworkState m_state;
 
 signals:
-    void stateChanged(IChatNetworkManager::NetworkState state);
+    void stateChanged(chat::IChatNetworkManager::NetworkState state);
 
 public slots:
-    void setState(IChatNetworkManager::NetworkState state);
+    void setState(chat::IChatNetworkManager::NetworkState state);
 };
 
 }
