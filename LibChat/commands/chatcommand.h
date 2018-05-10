@@ -7,7 +7,8 @@ class ChatCommand
 {
 public:
     explicit ChatCommand();
-    virtual void execute() = 0;
+    ChatCommand(const ChatCommand &com);
+    virtual void execute();
     void setChatClient(ChatClient *client);
     virtual ~ChatCommand(){}
 protected:

@@ -12,6 +12,7 @@ public:
 
     // ChatCommand interface
     void execute();
+    ~ComSendMessage(){}
 };
 }
 #endif // COMSENDMESSAGE_H

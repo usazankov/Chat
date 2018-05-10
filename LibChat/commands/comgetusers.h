@@ -10,9 +10,9 @@ class ComGetUsers : public ChatCommand
 {
 public:
     ComGetUsers();
-
     // ChatCommand interface
     void execute();
+    ~ComGetUsers(){}
 };
 }
 #endif // COMGETUSERS_H

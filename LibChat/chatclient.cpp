@@ -6,6 +6,7 @@ chat::ChatClient::ChatClient(QObject *parent) : QObject(parent)
     networkManager = new ChatTCPManager(this);
     connect(networkManager,SIGNAL(dataReceived(QJsonObject)),this,SLOT(updateChat(QJsonObject)));
     m_currentState = IChatNetworkManager::Offline;
+    com_manager = new ChatCommandManager(this);
 }
 
 chat::ChatClient::ChatClient(chat::IChatNetworkManager *networkManager, QObject *parent): QObject(parent), networkManager(networkManager)
@@ -14,12 +15,14 @@ chat::ChatClient::ChatClient(chat::IChatNetworkManager *networkManager, QObject 
     m_currentState = IChatNetworkManager::Offline;
     connect(networkManager,SIGNAL(dataReceived(QJsonObject)),this,SLOT(updateChat(QJsonObject)));
     connect(networkManager,SIGNAL(stateChanged(chat::IChatNetworkManager::NetworkState)),SLOT(onStateChanged(chat::IChatNetworkManager::NetworkState)));
+    com_manager = new ChatCommandManager(this);
 }
 
 chat::ChatClient::~ChatClient()
 {
     networkManager->deleteLater();
     model->deleteLater();
+    com_manager->deleteLater();
 }
 
 void chat::ChatClient::setNetworkManager(chat::IChatNetworkManager *networkManager)
@@ -40,7 +43,7 @@ chat::IChatNetworkManager *chat::ChatClient::getNetworkManager()
 void chat::ChatClient::executeCommand(ChatCommand *com)
 {
     com->setChatClient(this);
-    com->execute();
+    com_manager->executePostpone(com);
 }
 
 chat::IChatNetworkManager::NetworkState chat::ChatClient::currentState() const
@@ -59,6 +62,10 @@ void chat::ChatClient::onStateChanged(chat::IChatNetworkManager::NetworkState st
     m_currentState = state;
     if(model)
         model->setState(state);
+    if(state == IChatNetworkManager::Online)
+        com_manager->start();
+    else
+        com_manager->stop();
 }
 
 chat::ChatModelUpdater::ChatModelUpdater(chat::ChatClient *client)

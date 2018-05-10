@@ -18,14 +18,12 @@ void chat::LibChat::disconnectFromChat()
 
 void chat::LibChat::getUsers()
 {
-    ComGetUsers com;
-    client->executeCommand(&com);
+    client->executeCommand(new ComGetUsers);
 }
 
 void chat::LibChat::sendMessage(const QString &message)
 {
-    ComSendMessage com;
-    client->executeCommand(&com);
+    client->executeCommand(new ComSendMessage);
 }
 
 chat::IChatModel *chat::LibChat::model()

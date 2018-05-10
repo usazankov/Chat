@@ -8,6 +8,9 @@
 #include "chattcpmanager.h"
 #include "commands/comgetusers.h"
 #include "commands/comsendmessage.h"
+#include "chatcommandmanager.h"
+#include <QQueue>
+#include <QTimer>
 
 namespace chat {
 class ChatCommand;
@@ -32,11 +35,13 @@ public:
 
     IChatNetworkManager::NetworkState currentState()const;
 
+    //Support Class
     friend class ChatModelUpdater;
 private:
     IChatNetworkManager *networkManager;
     ChatModel *model;
     IChatNetworkManager::NetworkState m_currentState;
+    ChatCommandManager *com_manager;
 signals:
 
 public slots:
