@@ -24,14 +24,12 @@ void Server::startServer(const QHostAddress &address, quint16 port)
 void Server::onAuthenticated(const QString &idUser, Client *client)
 {
     m_sockets[idUser] = client->getSocket();
-    connect(client,SIGNAL(sendToAll(QByteArray)),SLOT(onSendToAllUsers(QByteArray)));
-    connect(client,SIGNAL(sendToUser(QString,QByteArray)),SLOT(onSendToUser(QString,QByteArray)));
-    connect(client,SIGNAL(sendToListUsers(QStringList,QByteArray)),SLOT(onSendToListUsers(QStringList,QByteArray)));
+    connect(client,SIGNAL(sendToClients(QString,QVariantMap,QByteArray)),SLOT(onSendToClients(QString,QVariantMap,QByteArray)));
 }
 
 void Server::onSendToClients(const QString &from, const QVariantMap &params, const QByteArray &request)
 {
-\
+
 }
 
 void Server::onDisconnected(const QString &idUser)

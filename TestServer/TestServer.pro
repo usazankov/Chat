@@ -16,9 +16,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp \
     server.cpp \
-    client.cpp
+    client.cpp \
+    worker.cpp
 
 HEADERS += \
     server.h \
     client.h \
-    server_consts.h
+    server_consts.h \
+    worker.h
