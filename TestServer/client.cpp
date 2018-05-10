@@ -1,8 +1,8 @@
 #include "client.h"
 
-Client::Client(QTcpSocket *sock) : socket(sock)
+Client::Client(QObject *parent, QTcpSocket *sock) : QObject(parent), socket(sock)
 {
-    connect(socket,SIGNAL(disconnected()))
+    \
 }
 
 QTcpSocket *Client::getSocket()

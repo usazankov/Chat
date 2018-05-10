@@ -3,12 +3,13 @@
 
 #include <QObject>
 #include <QTcpSocket>
+#include "server_consts.h"
 
 class Client : public QObject
 {
     Q_OBJECT
 public:
-    explicit Client(QTcpSocket *sock);
+    explicit Client(QObject *parent, QTcpSocket *sock);
     QTcpSocket * getSocket();
 private:
     QTcpSocket *socket;
@@ -17,12 +18,10 @@ private slots:
 
 signals:
     void authenticated(const QString &idUser, Client *client);
-    void sendToAll(const QByteArray &request);
-    void sendToUser(const QString &idUser, const QByteArray &request);
-    void sendToListUsers(const QStringList &listIdUsers, const QByteArray &request);
+    void sendToClients(const QString &from, const QVariantMap &params, const QByteArray &request);
     void disconnected(const QString &idUser);
 public slots:
 
 };
-Q_DECLARE_METATYPE(Client)
+Q_DECLARE_METATYPE(Client*)
 #endif // CLIENT_H

@@ -20,4 +20,5 @@ SOURCES += main.cpp \
 
 HEADERS += \
     server.h \
-    client.h
+    client.h \
+    server_consts.h

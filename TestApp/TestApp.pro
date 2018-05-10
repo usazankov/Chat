@@ -3,6 +3,7 @@ QT += network
 CONFIG += c++11 console
 CONFIG -= app_bundle
 
+INCLUDEPATH += $$PWD/../Common/
 INCLUDEPATH += $$PWD/../LibChat/
 LIBS += -L$$PWD/../libs -lLibChat
 DESTDIR = $$PWD/../Out

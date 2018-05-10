@@ -3,6 +3,7 @@
 
 #include <QTcpServer>
 #include "client.h"
+#include "server_consts.h"
 
 class Server : public QObject
 {
@@ -12,7 +13,7 @@ public:
     void startServer(const QHostAddress &address, quint16 port);
 public slots:
     void onAuthenticated(const QString &idUser, Client *client);
-    void onSendToClients(const QString &from, const QVariant &params, const QByteArray &request);
+    void onSendToClients(const QString &from, const QVariantMap &params, const QByteArray &request);
     void onDisconnected(const QString &idUser);
 private slots:
     void onNewConnection();
