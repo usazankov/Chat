@@ -4,6 +4,7 @@
 #include <QTcpServer>
 #include "client.h"
 #include "server_consts.h"
+#include "globalstorage.h"
 
 class Server : public QObject
 {
@@ -17,6 +18,9 @@ public slots:
     void onDisconnected(const QString &idUser);
 private slots:
     void onNewConnection();
+signals:
+    void userLeft(const QString &idUser);
+    void userConnect(const QString &idUser);
 private:
     QScopedPointer<QTcpServer> m_ptcpServer;
     QHash<QString, QTcpSocket*> m_sockets;

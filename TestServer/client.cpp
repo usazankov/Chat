@@ -1,14 +1,38 @@
 #include "client.h"
 
-Client::Client(QObject *parent, QTcpSocket *sock) : QObject(parent), socket(sock)
+Client::Client(QObject *parent, QTcpSocket *sock) : QObject(parent), socket(sock), d_ptr(new ClientPrivate())
 {
-    connect(socket, SIGNAL(readyRead()), this, SLOT(onReadyRead()));
-    connect(socket, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
+    d_ptr->q_ptr = this;
 }
 
 QTcpSocket *Client::getSocket()
 {
     return socket;
+}
+
+void Client::serUsersList(const QStringList &list)
+{
+    d_ptr->users = list;
+}
+
+Client::~Client()
+{
+    delete d_ptr;
+}
+
+Client::Client(ClientPrivate &dd, QObject *parent):QObject(parent),d_ptr(&dd)
+{
+
+}
+
+void Client::onUserLeft(const QString &idUser)
+{
+
+}
+
+void Client::onUserConnect(const QString &idUser)
+{
+
 }
 
 void Client::onReadyRead()
@@ -30,15 +54,17 @@ void Client::onReadyRead()
             QThreadPool::globalInstance()->start(worker);
         }
     }
-
 }
 
 void Client::onDisconnected()
 {
-    emit disconnected(idUser);
+    emit disconnected(d_ptr->idUser);
 }
 
 void Client::onResultReady(const QByteArray &arr, const QVariantMap &params)
 {
-    emit sendToClients(idUser, params, arr);
+    if(!d_ptr->isAuth){
+        return;
+    }
+    emit sendToClients(d_ptr->idUser, params, arr);
 }

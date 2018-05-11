@@ -17,10 +17,20 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp \
     server.cpp \
     client.cpp \
-    worker.cpp
+    worker.cpp \
+    parserrequest.cpp \
+    client_p.cpp \
+    authorizator.cpp \
+    globalstorage.cpp \
+    room.cpp
 
 HEADERS += \
     server.h \
     client.h \
     server_consts.h \
-    worker.h
+    worker.h \
+    parserrequest.h \
+    client_p.h \
+    authorizator.h \
+    globalstorage.h \
+    room.h

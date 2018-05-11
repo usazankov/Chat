@@ -24,6 +24,7 @@ void Server::startServer(const QHostAddress &address, quint16 port)
 void Server::onAuthenticated(const QString &idUser, Client *client)
 {
     m_sockets[idUser] = client->getSocket();
+    //GlobalStorage::instance()
     connect(client,SIGNAL(sendToClients(QString,QVariantMap,QByteArray)),SLOT(onSendToClients(QString,QVariantMap,QByteArray)));
 }
 
