@@ -3,10 +3,8 @@
 
 #include <QObject>
 #include <QVariantMap>
+#include "server_consts.h"
 
-namespace server_consts {
-    static const QString ID_USER = "id_user";
-}
 class Authorizator : public QObject
 {
     Q_OBJECT

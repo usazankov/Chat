@@ -7,7 +7,7 @@ Server::Server(QObject *parent) : QObject(parent)
 
 void Server::onNewConnection()
 {
-    Client *client = new Client(this, m_ptcpServer->nextPendingConnection());
+    Client *client = new Client(this, m_ptcpServer->nextPendingConnection()); // Удалять клиент будет сам себя при дисконекте
     connect(this,SIGNAL(serverEvent(ServerEvent)),client,SLOT(onServerEvent(ServerEvent)));
 }
 
@@ -22,6 +22,7 @@ void Server::startServer(const QHostAddress &address, quint16 port)
 
 void Server::addClient(const QString &idUser, Client *client)
 {
+    GlobalStorage::addUser(idUser.toStdString());
     m_sockets[idUser] = client->getSocket();
     ServerEvent event;
     event.type = ServerEvent::ConnectedUser;
@@ -31,6 +32,7 @@ void Server::addClient(const QString &idUser, Client *client)
 
 void Server::removeClient(const QString &idUser)
 {
+    GlobalStorage::removeUser(idUser.toStdString());
     m_sockets.remove(idUser);
     ServerEvent event;
     event.type = ServerEvent::DisconnectedUser;

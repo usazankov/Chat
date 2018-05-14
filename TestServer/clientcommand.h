@@ -2,6 +2,7 @@
 #define CLIENTCOMMAND_H
 
 #include <QObject>
+#include "server_consts.h"
 
 class ClientCommand
 {
@@ -13,16 +14,9 @@ public:
         MissingToken,
         SUCCESS
     };
-    enum CommandType{
-        Undefined = 0,
-        SendToClient, // Отправить данные конкретному пользователю
-        SendToListClient, // Отправить данные списку пользователей
-        SendToAllClient, // Отправить данные всем пользователям
-        SendToThisClient, // Отправить данные пользователю, который инициировал запрос
-        AuthenticationClient //Аутентификация пользователя
-    };
+
     Result result;
-    CommandType type;
+    server_consts::CommandType type;
     QByteArray data;
 };
 Q_DECLARE_METATYPE(ClientCommand)

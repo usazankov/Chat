@@ -4,6 +4,7 @@ Worker::Worker(const QByteArray &arr, QObject *parent) : QObject(parent)
 {
     data = arr;
     auth_ptr.reset(new Authorizator(this));
+    parser_ptr.reset(new ParserRequest(this));
 }
 
 Worker::Worker(const ServerEvent &event, QObject *parent)
@@ -20,9 +21,13 @@ void Worker::process_data()
 {
     QJsonDocument doc = QJsonDocument::fromBinaryData(data);
     if(!doc.isObject()){
+        ClientCommand com;
+        com.result = ClientCommand::ErrorParseRequest;
+        emit result(com);
         return;
     }
-    parser_ptr.reset(new ParserRequest(&doc, this));
+    parser_ptr->setJsonDocument(doc);
+
 }
 
 void Worker::process_event()

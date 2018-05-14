@@ -9,6 +9,7 @@
 #include <parserrequest.h>
 #include "clientcommand.h"
 #include "serverevent.h"
+#include "chatrequest.h"
 
 class Worker : public QObject, public QRunnable
 {
