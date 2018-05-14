@@ -9,33 +9,34 @@
 #include <QThreadPool>
 #include <QDataStream>
 #include <QScopedPointer>
+#include "serverevent.h"
+#include "clientcommand.h"
+
 class ClientPrivate;
+class Server;
 class Client : public QObject
 {
     Q_OBJECT
 public:
-    explicit Client(QObject *parent, QTcpSocket *sock);
+    explicit Client(Server *server, QTcpSocket *sock);
     QTcpSocket * getSocket();
-    void serUsersList(const QStringList &list);
     virtual ~Client();
 private:
     Q_DECLARE_PRIVATE(Client)
     QTcpSocket *socket;
     qint32 m_msgSize;
+    void runWorker(Worker *worker);
+    bool isAuthenticated(const ClientCommand &com = ClientCommand());
+    void writeToSocket(const QByteArray &req);
 protected:
     ClientPrivate * const d_ptr;
     Client(ClientPrivate &dd, QObject *parent);
-signals:
-    void authenticated(const QString &idUser, Client *client);
-    void sendToClients(const QString &from, const QVariantMap &params, const QByteArray &request);
-    void disconnected(const QString &idUser);
 public slots:
-    void onUserLeft(const QString &idUser);
-    void onUserConnect(const QString &idUser);
+    void onServerEvent(const ServerEvent &event);
 private slots:
     void onReadyRead();
     void onDisconnected();
-    void onResultReady(const QByteArray &arr, const QVariantMap &params);
+    void onResultReady(const ClientCommand &com);
 };
 Q_DECLARE_METATYPE(Client*)
 #endif // CLIENT_H

@@ -8,8 +8,7 @@ Server::Server(QObject *parent) : QObject(parent)
 void Server::onNewConnection()
 {
     Client *client = new Client(this, m_ptcpServer->nextPendingConnection());
-    connect(client,SIGNAL(authenticated(QString, Client*)),SLOT(onAuthenticated(QString,Client*)));
-    connect(client,SIGNAL(disconnected(QString)),SLOT(onDisconnected(QString)));
+    connect(this,SIGNAL(serverEvent(ServerEvent)),client,SLOT(onServerEvent(ServerEvent)));
 }
 
 void Server::startServer(const QHostAddress &address, quint16 port)
@@ -21,19 +20,25 @@ void Server::startServer(const QHostAddress &address, quint16 port)
     }
 }
 
-void Server::onAuthenticated(const QString &idUser, Client *client)
+void Server::addClient(const QString &idUser, Client *client)
 {
     m_sockets[idUser] = client->getSocket();
-    //GlobalStorage::instance()
-    connect(client,SIGNAL(sendToClients(QString,QVariantMap,QByteArray)),SLOT(onSendToClients(QString,QVariantMap,QByteArray)));
+    ServerEvent event;
+    event.type = ServerEvent::ConnectedUser;
+    event.data[server_consts::ID_USER] = QVariant(idUser);
+    emit serverEvent(event);
 }
 
-void Server::onSendToClients(const QString &from, const QVariantMap &params, const QByteArray &request)
-{
-
-}
-
-void Server::onDisconnected(const QString &idUser)
+void Server::removeClient(const QString &idUser)
 {
     m_sockets.remove(idUser);
+    ServerEvent event;
+    event.type = ServerEvent::DisconnectedUser;
+    event.data[server_consts::ID_USER] = QVariant(idUser);
+    emit serverEvent(event);
+}
+
+void Server::executeCommand(const ClientCommand &com)
+{
+
 }

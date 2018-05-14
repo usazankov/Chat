@@ -22,7 +22,9 @@ SOURCES += main.cpp \
     client_p.cpp \
     authorizator.cpp \
     globalstorage.cpp \
-    room.cpp
+    room.cpp \
+    serverevent.cpp \
+    clientcommand.cpp
 
 HEADERS += \
     server.h \
@@ -33,4 +35,6 @@ HEADERS += \
     client_p.h \
     authorizator.h \
     globalstorage.h \
-    room.h
+    room.h \
+    serverevent.h \
+    clientcommand.h

@@ -1,8 +1,10 @@
 #include "client.h"
 
-Client::Client(QObject *parent, QTcpSocket *sock) : QObject(parent), socket(sock), d_ptr(new ClientPrivate())
+Client::Client(Server *server, QTcpSocket *sock) : QObject(server), socket(sock), d_ptr(new ClientPrivate())
 {
     d_ptr->q_ptr = this;
+    d_ptr->server = server;
+    d_ptr->isAuth = false;
 }
 
 QTcpSocket *Client::getSocket()
@@ -10,14 +12,31 @@ QTcpSocket *Client::getSocket()
     return socket;
 }
 
-void Client::serUsersList(const QStringList &list)
-{
-    d_ptr->users = list;
-}
-
 Client::~Client()
 {
     delete d_ptr;
+}
+
+void Client::runWorker(Worker *worker)
+{
+    connect(worker, SIGNAL(result(ClientCommand)),this,SLOT(onResultReady(ClientCommand)));
+    QThreadPool::globalInstance()->start(worker);
+}
+
+bool Client::isAuthenticated(const ClientCommand &com)
+{
+    if(com.type == ClientCommand::AuthenticationClient){
+        if(com.result == ClientCommand::SUCCESS){
+            d_ptr->isAuth = true;
+        }
+        writeToSocket(com.data);
+    }
+    return d_ptr->isAuth;
+}
+
+void Client::writeToSocket(const QByteArray &req)
+{
+    socket->write(req);
 }
 
 Client::Client(ClientPrivate &dd, QObject *parent):QObject(parent),d_ptr(&dd)
@@ -25,14 +44,10 @@ Client::Client(ClientPrivate &dd, QObject *parent):QObject(parent),d_ptr(&dd)
 
 }
 
-void Client::onUserLeft(const QString &idUser)
+void Client::onServerEvent(const ServerEvent &event)
 {
-
-}
-
-void Client::onUserConnect(const QString &idUser)
-{
-
+    Worker *worker = new Worker(event, this);
+    runWorker(worker);
 }
 
 void Client::onReadyRead()
@@ -50,21 +65,24 @@ void Client::onReadyRead()
             QByteArray arr = socket->readAll();
             m_msgSize = -1;
             Worker *worker = new Worker(arr,this);
-            connect(worker, SIGNAL(result(QByteArray,QVariantMap)),this,SLOT(onResultReady(QByteArray,QVariantMap)));
-            QThreadPool::globalInstance()->start(worker);
+            runWorker(worker);
         }
     }
 }
 
 void Client::onDisconnected()
 {
-    emit disconnected(d_ptr->idUser);
+    d_ptr->server->removeClient(d_ptr->idUser);
+    deleteLater();
 }
 
-void Client::onResultReady(const QByteArray &arr, const QVariantMap &params)
+void Client::onResultReady(const ClientCommand &com)
 {
-    if(!d_ptr->isAuth){
+    if(!isAuthenticated(com))
+        return;
+    if(com.type == ClientCommand::SendToThisClient){
+        writeToSocket(com.data);
         return;
     }
-    emit sendToClients(d_ptr->idUser, params, arr);
+    d_ptr->server->executeCommand(com);
 }

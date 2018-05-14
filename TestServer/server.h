@@ -5,22 +5,30 @@
 #include "client.h"
 #include "server_consts.h"
 #include "globalstorage.h"
-
+#include "clientcommand.h"
+#include "serverevent.h"
+class Client;
 class Server : public QObject
 {
     Q_OBJECT
 public:
     explicit Server(QObject *parent = nullptr);
+
+    //Запустить сервер
     void startServer(const QHostAddress &address, quint16 port);
-public slots:
-    void onAuthenticated(const QString &idUser, Client *client);
-    void onSendToClients(const QString &from, const QVariantMap &params, const QByteArray &request);
-    void onDisconnected(const QString &idUser);
+
+    //Работа с клиентами
+    void addClient(const QString &idUser, Client *client);
+    void removeClient(const QString &idUser);
+
+    //Выполнить команду
+    void executeCommand(const ClientCommand &com);
+
 private slots:
     void onNewConnection();
 signals:
-    void userLeft(const QString &idUser);
-    void userConnect(const QString &idUser);
+    //Событие от сервера
+    void serverEvent(const ServerEvent &event);
 private:
     QScopedPointer<QTcpServer> m_ptcpServer;
     QHash<QString, QTcpSocket*> m_sockets;
