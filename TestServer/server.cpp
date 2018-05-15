@@ -32,6 +32,9 @@ void Server::addClient(const QString &idUser, Client *client)
 
 void Server::removeClient(const QString &idUser)
 {
+    if(!m_sockets.contains(idUser)){
+        return;
+    }
     GlobalStorage::instance().removeUser(idUser.toStdString());
     m_sockets.remove(idUser);
     ServerEvent event;

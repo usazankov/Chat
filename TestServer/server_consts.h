@@ -5,7 +5,6 @@
 namespace server_consts {
 
 static const QString TOKEN = "token";
-static const QString USER_ID = "user_id";
 enum CommandType{
     Undefined = 0,
     SendToClient, // Отправить данные конкретному пользователю

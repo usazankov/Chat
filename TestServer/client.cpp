@@ -72,7 +72,9 @@ void Client::onReadyRead()
 
 void Client::onDisconnected()
 {
-    d_ptr->server->removeClient(d_ptr->idUser);
+    if(isAuthenticated()){
+        d_ptr->server->removeClient(d_ptr->idUser);
+    }
     deleteLater();
 }
 
