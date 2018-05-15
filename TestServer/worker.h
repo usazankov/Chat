@@ -10,6 +10,8 @@
 #include "clientcommand.h"
 #include "serverevent.h"
 #include "chatrequest.h"
+#include "common_consts.h"
+#include <QDebug>
 
 class Worker : public QObject, public QRunnable
 {
@@ -25,6 +27,7 @@ private:
     QScopedPointer<ParserRequest> parser_ptr;
     void process_data();
     void process_event();
+    void authorization();
 signals:
     void result(const ClientCommand &com);
 public slots:

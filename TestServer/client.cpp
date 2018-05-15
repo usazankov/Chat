@@ -25,8 +25,8 @@ void Client::runWorker(Worker *worker)
 
 bool Client::isAuthenticated(const ClientCommand &com)
 {
-    if(com.type == ClientCommand::AuthenticationClient){
-        if(com.result == ClientCommand::SUCCESS){
+    if(com.type == server_consts::AuthenticationClient){
+        if(com.result == server_consts::SUCCESS){
             d_ptr->isAuth = true;
         }
         writeToSocket(com.data);
@@ -80,7 +80,7 @@ void Client::onResultReady(const ClientCommand &com)
 {
     if(!isAuthenticated(com))
         return;
-    if(com.type == ClientCommand::SendToThisClient){
+    if(com.type == server_consts::SendToThisClient){
         writeToSocket(com.data);
         return;
     }

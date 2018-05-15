@@ -49,6 +49,16 @@ std::string chat::ChatRequest::toString() const
     return strJson.toStdString();
 }
 
+chat::ChatRequest chat::ChatRequest::fromJsonObject(const QJsonObject &obj)
+{
+    return chat::ChatRequest();
+}
+
+chat::ChatRequest chat::ChatRequest::fromVariantMap(const QVariantMap &obj)
+{
+    return chat::ChatRequest();
+}
+
 QByteArray chat::ChatRequest::toRequest() const
 {
     QByteArray res;

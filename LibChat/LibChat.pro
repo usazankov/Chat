@@ -49,7 +49,6 @@ SOURCES += \
 
 HEADERS += \
         libchat.h \
-        libchat_global.h \ 
     chatclient.h \
     chatrespparser.h \
     models/user.h \
@@ -64,7 +63,8 @@ HEADERS += \
     models/messagelistmodel.h \
     ../Common/chatrequest.h \
     ../Common/common_consts.h \
-    chatcommandmanager.h
+    chatcommandmanager.h \
+    ../Common/libchat_global.h
 
 unix {
     target.path = /usr/lib

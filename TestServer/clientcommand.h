@@ -8,14 +8,8 @@ class ClientCommand
 {
 public:
     explicit ClientCommand();
-    enum Result{
-        UndefinedError = 0,
-        ErrorParseRequest,
-        MissingToken,
-        SUCCESS
-    };
 
-    Result result;
+    server_consts::Result result;
     server_consts::CommandType type;
     QByteArray data;
 };

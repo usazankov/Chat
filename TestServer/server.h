@@ -7,6 +7,7 @@
 #include "globalstorage.h"
 #include "clientcommand.h"
 #include "serverevent.h"
+
 class Client;
 class Server : public QObject
 {

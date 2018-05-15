@@ -22,21 +22,21 @@ void Server::startServer(const QHostAddress &address, quint16 port)
 
 void Server::addClient(const QString &idUser, Client *client)
 {
-    GlobalStorage::addUser(idUser.toStdString());
+    GlobalStorage::instance().addUser(idUser.toStdString());
     m_sockets[idUser] = client->getSocket();
     ServerEvent event;
     event.type = ServerEvent::ConnectedUser;
-    event.data[server_consts::ID_USER] = QVariant(idUser);
+    event.data[chat::USER_ID] = QVariant(idUser);
     emit serverEvent(event);
 }
 
 void Server::removeClient(const QString &idUser)
 {
-    GlobalStorage::removeUser(idUser.toStdString());
+    GlobalStorage::instance().removeUser(idUser.toStdString());
     m_sockets.remove(idUser);
     ServerEvent event;
     event.type = ServerEvent::DisconnectedUser;
-    event.data[server_consts::ID_USER] = QVariant(idUser);
+    event.data[chat::USER_ID] = QVariant(idUser);
     emit serverEvent(event);
 }
 

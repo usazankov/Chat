@@ -27,6 +27,8 @@ public:
     QJsonObject toJson()const;
     std::string toString()const;
 
+    static ChatRequest fromJsonObject(const QJsonObject &obj);
+    static ChatRequest fromVariantMap(const QVariantMap &obj);
     //Преобразовать в низкоуровненвый запрос. Формат запроса:
     //4 байта - размер блока
     //сам блок

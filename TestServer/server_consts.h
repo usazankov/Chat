@@ -14,5 +14,12 @@ enum CommandType{
     SendToThisClient, // Отправить данные пользователю, который инициировал запрос
     AuthenticationClient //Аутентификация пользователя
 };
+enum Result{
+    UndefinedError = 0,
+    ErrorParseRequest,
+    MissingUserID,
+    MissingToken,
+    SUCCESS
+};
 }
 #endif // SERVER_CONSTS_H
