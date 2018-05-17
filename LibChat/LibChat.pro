@@ -45,7 +45,10 @@ SOURCES += \
     commands/comsendmessage.cpp \
     models/messagelistmodel.cpp \
     ../Common/chatrequest.cpp \
-    chatcommandmanager.cpp
+    chatcommandmanager.cpp \
+    personaldata.cpp \
+    chatclientparameters.cpp \
+    commands/comauthuser.cpp
 
 HEADERS += \
         libchat.h \
@@ -64,7 +67,10 @@ HEADERS += \
     ../Common/chatrequest.h \
     ../Common/common_consts.h \
     chatcommandmanager.h \
-    ../Common/libchat_global.h
+    ../Common/libchat_global.h \
+    personaldata.h \
+    chatclientparameters.h \
+    commands/comauthuser.h
 
 unix {
     target.path = /usr/lib

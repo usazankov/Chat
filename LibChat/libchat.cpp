@@ -3,12 +3,19 @@
 
 chat::LibChat::LibChat()
 {
-    client = new ChatClient(new ChatTCPManager);
+    params = new ChatClientParameters;
+    client = new ChatClient(new ChatTCPManager, params);
+
 }
 
 void chat::LibChat::connectToChat(const QHostAddress &address, quint16 port)
 {
     client->getNetworkManager()->connectToHost(address, port);
+}
+
+void chat::LibChat::authorization(const chat::PersonalData &data)
+{
+    client->executeCommand(new ComAuthUser(data));
 }
 
 void chat::LibChat::disconnectFromChat()
@@ -33,6 +40,7 @@ chat::IChatModel *chat::LibChat::model()
 
 void chat::LibChat::deleteChat()
 {
+    params->deleteLater();
     client->deleteLater();
 }
 

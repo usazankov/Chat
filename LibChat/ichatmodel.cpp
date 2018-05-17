@@ -10,6 +10,11 @@ chat::IChatNetworkManager::NetworkState chat::IChatModel::state() const
     return m_state;
 }
 
+chat::IChatModel::AuthState chat::IChatModel::authState() const
+{
+    return m_authState;
+}
+
 void chat::IChatModel::setState(chat::IChatNetworkManager::NetworkState state)
 {
     if (m_state == state)
@@ -18,3 +23,13 @@ void chat::IChatModel::setState(chat::IChatNetworkManager::NetworkState state)
     m_state = state;
     emit stateChanged(m_state);
 }
+
+void chat::IChatModel::setAuthState(chat::IChatModel::AuthState authState)
+{
+    if (m_authState == authState)
+        return;
+
+    m_authState = authState;
+    emit authStateChanged(m_authState);
+}
+

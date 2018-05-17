@@ -5,13 +5,13 @@ Authorizator::Authorizator(QObject *parent) : QObject(parent)
 
 }
 
-bool Authorizator::isValidData(QVariantMap data)
+bool Authorizator::isValidData(const AuthRequest &data)
 {
-
+    return true;
 }
 
-QString Authorizator::generateToken(QString idUser) const
+QString Authorizator::generateToken() const
 {
     QString temp("test_token for ");
-    return temp + idUser;
+    return temp;
 }

@@ -6,9 +6,9 @@
 #include "chatmodel.h"
 #include "ichatnetworkmanager.h"
 #include "chattcpmanager.h"
-#include "commands/comgetusers.h"
-#include "commands/comsendmessage.h"
+#include "commands/comauthuser.h"
 #include "chatcommandmanager.h"
+#include "chatclientparameters.h"
 #include <QQueue>
 #include <QTimer>
 
@@ -19,11 +19,17 @@ class LIBCHATSHARED_EXPORT ChatClient : public QObject
 {
     Q_OBJECT
 public:
-    explicit ChatClient(QObject *parent = nullptr);
-    explicit ChatClient(IChatNetworkManager *networkManager, QObject *parent = nullptr);
+    explicit ChatClient(IChatNetworkManager *networkManager, ChatClientParameters *params, QObject *parent = nullptr);
     virtual ~ChatClient();
+
     //Установить объект, с помощью которого будем соединяться с внешним миром
     void setNetworkManager(IChatNetworkManager *networkManager);
+
+    //Установить параметры клиента
+    void setChatClientParameters(ChatClientParameters *params);
+
+    //Получить параметры клиента
+    ChatClientParameters *chatClientParameters()const;
 
     //Получить указатель на модель
     ChatModel *getModel();
@@ -42,11 +48,14 @@ private:
     ChatModel *model;
     IChatNetworkManager::NetworkState m_currentState;
     ChatCommandManager *com_manager;
+    ChatClientParameters *params;
 signals:
-
+    void chatClientParametersChanged();
+private:
+    void onPersonalDataChanged(PersonalData data);
 public slots:
     void updateChat(const QJsonObject &obj);
-    void onStateChanged(chat::IChatNetworkManager::NetworkState state);
+    void onStateChanged(IChatNetworkManager::NetworkState state);
 };
 
 class ChatModelUpdater

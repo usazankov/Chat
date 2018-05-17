@@ -20,6 +20,7 @@ public:
     QAbstractListModel *messagesListModel();
 private:
     QScopedPointer<MessageListModel> ms_ptr;
+
 signals:
 
 public slots:

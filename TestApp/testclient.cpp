@@ -4,8 +4,11 @@ TestClient::TestClient(QObject *parent) : QObject(parent)
 {
     connect(chat::LibChat::instance().getChatClient()->getNetworkManager(),SIGNAL(error(chat::IChatNetworkManager::ErrorNetwork)),this,SLOT(printError(chat::IChatNetworkManager::ErrorNetwork)));
     QHostAddress adr(QHostAddress::LocalHost);
+    chat::PersonalData data;
+    data.setUserName("Yura");
     chat::LibChat::instance().connectToChat(adr, 1024);
-    chat::LibChat::instance().getUsers();
+    chat::LibChat::instance().authorization(data);
+    //chat::LibChat::instance().getUsers();
 }
 
 void TestClient::print(const QString &str)

@@ -1,5 +1,7 @@
 #ifndef CHATCOMMAND_H
 #define CHATCOMMAND_H
+#include "../Common/chatrequest.h"
+#include "../Common/common_consts.h"
 
 namespace chat {
 class ChatClient;

@@ -5,6 +5,8 @@ Client::Client(Server *server, QTcpSocket *sock) : QObject(server), socket(sock)
     d_ptr->q_ptr = this;
     d_ptr->server = server;
     d_ptr->isAuth = false;
+    connect(socket,SIGNAL(readyRead()),this,SLOT(onReadyRead()));
+    connect(socket,SIGNAL(disconnected()),this,SLOT(onDisconnected()));
 }
 
 QTcpSocket *Client::getSocket()

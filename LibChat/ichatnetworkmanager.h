@@ -26,7 +26,7 @@ public:
     };
 signals:
     void dataReceived(const QJsonObject &obj);
-    void stateChanged(chat::IChatNetworkManager::NetworkState newState);
+    void stateChanged(IChatNetworkManager::NetworkState newState);
     void error(chat::IChatNetworkManager::ErrorNetwork err);
 public slots:
 };

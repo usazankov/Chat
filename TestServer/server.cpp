@@ -3,6 +3,7 @@
 Server::Server(QObject *parent) : QObject(parent)
 {
     m_ptcpServer.reset(new QTcpServer);
+    qRegisterMetaType<ClientCommand>();
 }
 
 void Server::onNewConnection()

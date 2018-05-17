@@ -20,8 +20,7 @@ Worker::~Worker()
 void Worker::process_data()
 {
     QJsonParseError error;
-    QJsonDocument doc;
-    doc.fromJson(data, &error);
+    QJsonDocument doc = QJsonDocument::fromJson(data);
     if(!doc.isObject()){
         qDebug()<<"error:"<< error.errorString();
         ClientCommand com;
@@ -43,11 +42,12 @@ void Worker::process_event()
 
 void Worker::authorization()
 {
-    QVariantMap map;
     ClientCommand com;
     chat::ChatRequest req;
     qDebug() << "authorization()";
-    QString userID = parser_ptr->data(server_consts::USER_ID).toString();
+    QVariant vData = parser_ptr->data();
+    AuthRequest authData = server_consts::unpack<AuthRequest>(vData);
+    QString userID = authData.userId;
     com.type = server_consts::AuthenticationClient;
     if(userID.isNull()){
         qDebug() << "UserId is NULL";
@@ -58,8 +58,7 @@ void Worker::authorization()
         return;
     }
     qDebug() << "userId: " << userID;
-    map[server_consts::USER_ID] = userID;
-    if(auth_ptr->isValidData(map)){
+    if(auth_ptr->isValidData(authData)){
         com.result = server_consts::SUCCESS;
         qDebug() << "data is valid";
         req.addChildObj(chat::COMMAND_OBJ, chat::ChatRequest(chat::COMMAND_ID, chat::C_AUTH_REQ));

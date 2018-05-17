@@ -27,7 +27,8 @@ SOURCES += main.cpp \
     globalstorage.cpp \
     room.cpp \
     serverevent.cpp \
-    clientcommand.cpp
+    clientcommand.cpp \
+    Requests/authrequest.cpp
 
 HEADERS += \
     server.h \
@@ -40,4 +41,5 @@ HEADERS += \
     globalstorage.h \
     room.h \
     serverevent.h \
-    clientcommand.h
+    clientcommand.h \
+    Requests/authrequest.h

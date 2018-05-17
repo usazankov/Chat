@@ -63,10 +63,10 @@ QByteArray chat::ChatRequest::toRequest() const
 {
     QByteArray res;
     QJsonDocument doc(json);
-    QByteArray block = doc.toBinaryData();
-    QByteArray block_hash = QCryptographicHash::hash(block, QCryptographicHash::Md5);
+    QByteArray block = doc.toJson();
+    //QByteArray block_hash = QCryptographicHash::hash(block, QCryptographicHash::Md5);
     QDataStream out(&res, QIODevice::WriteOnly);
     out << block;
-    out << block_hash;
+    //out << block_hash;
     return res;
 }
