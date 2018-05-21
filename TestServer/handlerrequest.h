@@ -1,5 +1,5 @@
-#ifndef PARSERREQUEST_H
-#define PARSERREQUEST_H
+#ifndef HANDLERREQUEST_H
+#define HANDLERREQUEST_H
 
 #include <QObject>
 #include <QJsonDocument>
@@ -8,23 +8,30 @@
 #include "server_consts.h"
 #include "common_consts.h"
 #include "Requests/authrequest.h"
+#include "clientcommand.h"
+#include "common_consts.h"
+#include "chatrequest.h"
+#include <QDebug>
 
-class ParserRequest : public QObject
+class HandlerRequest : public QObject
 {
     Q_OBJECT
 public:
-    explicit ParserRequest(QObject *parent = nullptr);
-    explicit ParserRequest(QJsonDocument *doc, QObject *parent = nullptr);
-    void process();
-    server_consts::CommandType typeCommand()const;
+    explicit HandlerRequest(QObject *parent = nullptr);
+    explicit HandlerRequest(QJsonDocument *doc, QObject *parent = nullptr);
+    virtual ~HandlerRequest();
+
     void setJsonDocument(QJsonDocument *doc);
     QJsonDocument *getJsonDocument()const;
-    QVariant data()const;
-private:
-    QJsonDocument *doc;
+
+    //Вернуть результат
+    virtual ClientCommand data()const = 0;
+
+protected:
     server_consts::CommandType type;
-    QVariantMap map;
-    AuthRequest convertToAuthRequest() const;
+    QJsonDocument *doc;
+private:
+
 signals:
 
 public slots:
@@ -37,5 +44,6 @@ T unpack( const QVariant& var, const T& defVal = T() ) {
     }
     return defVal;
 }
+QString getTypeCommand(const QJsonObject &obj);
 }
-#endif // PARSERREQUEST_H
+#endif // HANDLERREQUEST_H

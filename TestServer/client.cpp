@@ -21,7 +21,8 @@ Client::~Client()
 
 void Client::runWorker(Worker *worker)
 {
-    connect(worker, SIGNAL(result(ClientCommand)),this,SLOT(onResultReady(ClientCommand)));
+    //connect(worker, SIGNAL(result(ClientCommand)),this,SLOT(onResultReady(ClientCommand)));
+    worker->setAutoDelete(true);
     QThreadPool::globalInstance()->start(worker);
 }
 
@@ -48,8 +49,8 @@ Client::Client(ClientPrivate &dd, QObject *parent):QObject(parent),d_ptr(&dd)
 
 void Client::onServerEvent(const ServerEvent &event)
 {
-    Worker *worker = new Worker(event, this);
-    runWorker(worker);
+    //Worker *worker = new Worker(event);
+    //runWorker(worker);
 }
 
 void Client::onReadyRead()
@@ -66,7 +67,7 @@ void Client::onReadyRead()
                 return;
             QByteArray arr = socket->readAll();
             m_msgSize = -1;
-            Worker *worker = new Worker(arr,this);
+            Worker *worker = new Worker(arr);
             runWorker(worker);
         }
     }

@@ -7,8 +7,8 @@
 class ClientCommand
 {
 public:
-    explicit ClientCommand();
-
+    ClientCommand();
+    ClientCommand(const ClientCommand &com);
     server_consts::Result result;
     server_consts::CommandType type;
     QByteArray data;

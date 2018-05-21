@@ -4,9 +4,10 @@
 #include <QObject>
 #include <QRunnable>
 #include <QJsonDocument>
-#include "authorizator.h"
 #include <QScopedPointer>
-#include <parserrequest.h>
+#include "iparserrequest.h"
+#include "parserclientjson.h"
+#include "parserserverevent.h"
 #include "clientcommand.h"
 #include "serverevent.h"
 #include "chatrequest.h"
@@ -21,13 +22,7 @@ public:
     explicit Worker(const ServerEvent &event, QObject *parent = nullptr);
     ~Worker();
 private:
-    QByteArray data;
-    ServerEvent event;
-    QScopedPointer<Authorizator> auth_ptr;
-    QScopedPointer<ParserRequest> parser_ptr;
-    void process_data();
-    void process_event();
-    void authorization();
+    QScopedPointer<IParserRequest> parser_ptr;
 signals:
     void result(const ClientCommand &com);
 public slots:

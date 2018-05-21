@@ -21,25 +21,31 @@ SOURCES += main.cpp \
     server.cpp \
     client.cpp \
     worker.cpp \
-    parserrequest.cpp \
     client_p.cpp \
-    authorizator.cpp \
     globalstorage.cpp \
     room.cpp \
     serverevent.cpp \
     clientcommand.cpp \
-    Requests/authrequest.cpp
+    Requests/authrequest.cpp \
+    handlerrequest.cpp \
+    Handlers/authhandler.cpp \
+    iparserrequest.cpp \
+    parserclientjson.cpp \
+    parserserverevent.cpp
 
 HEADERS += \
     server.h \
     client.h \
     server_consts.h \
     worker.h \
-    parserrequest.h \
     client_p.h \
-    authorizator.h \
     globalstorage.h \
     room.h \
     serverevent.h \
     clientcommand.h \
-    Requests/authrequest.h
+    Requests/authrequest.h \
+    handlerrequest.h \
+    Handlers/authhandler.h \
+    iparserrequest.h \
+    parserclientjson.h \
+    parserserverevent.h
