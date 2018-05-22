@@ -43,14 +43,18 @@ namespace chat {
     const static TYPE_STR C_GET_EVENTS = "c_get_events_users"; //Получить события от сервера
                                                              //(Сервер должен вернуть список пользователей, изменивших свое состояние, имя или еще что-то)
 
-    const static TYPE_STR EVENTS_OBJ = "Events_obj"; //Объект событие от сервера
-        //В этом объекте (EVENTS_OBJ) содержится объект USERS_LIST - список пользователей, изменивших свое состояние, имя или еще что-то
+    const static TYPE_STR EVENT_OBJ = "Event_obj"; //Объект событие от сервера
+        const static TYPE_STR EVENT_ID = "Event_id"; //Идентификатор события
+        //В этом объекте (EVENT_OBJ) может содержаться объект USERS_LIST - список пользователей, изменивших свое состояние, имя или еще что-то
         const static TYPE_STR MESSAGES_LIST = "Messages_list"; //Список сообщений от пользователей
             const static TYPE_STR MESSAGE_OBJ = "Message_obj"; //Объект сообщение
                 //Здесь содержится USER_ID и может быть USER_NAME
                 const static TYPE_STR MESSAGE_DATE = "Message_data"; //Дата сообщения
                 const static TYPE_STR MESSAGE_TIME = "Message_time"; //Время сообщения
                 const static TYPE_STR MESSAGE_TEXT = "Message_text"; //Текст сообщения
+
+    // Описание идентификаторов команд (список возможных полей для поля Event_id)
+    const static TYPE_STR E_CONNECT_USER = "e_connect_user"; //В этом типе события находится объект USER_OBJ
 
     const static TYPE_STR CODE_RESP = "Code_resp"; //Код ответа сервера
 
