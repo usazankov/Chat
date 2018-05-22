@@ -6,6 +6,7 @@ chat::ChatTCPManager::ChatTCPManager(qintptr socketDescriptor, QObject *parent) 
     if(socketDescriptor){
         socket->setSocketDescriptor(socketDescriptor);
     }
+    m_msgSize = -1;
     initChat();
 }
 
@@ -50,33 +51,24 @@ void chat::ChatTCPManager::onSocketDisconnected()
 
 void chat::ChatTCPManager::onSocketReadyRead()
 {
-    QDataStream in(socket);
-    int size = 0;
-    //если считываем новый блок первые 4 байта это его размер
-    if (blockSize == 0) {
-        //если пришло меньше 4 байт ждем пока будет 4 байта
-        if (socket->bytesAvailable() < (int)sizeof(quint32))
-            return;
-        //считываем размер (4 байта)
-        in >> blockSize;
-        qDebug() << "_blockSize now " << blockSize;
+    QDataStream stream(socket);
+    while(true) {
+        if (m_msgSize < 0) {
+            if (socket->bytesAvailable() < sizeof(int))
+                return;
+            stream >> m_msgSize;
+        }
+        else {
+            if (socket->bytesAvailable() < m_msgSize)
+                return;
+            QByteArray arr = socket->read(m_msgSize);
+            qDebug() << "Received:";
+            qDebug() << arr;
+            m_msgSize = -1;
+
+        }
     }
-    //ждем пока блок придет полностью
-    if (socket->bytesAvailable() < blockSize + chat::sizeHash)
-        return;
-    else{
-        size = blockSize;
-        //можно принимать новый блок
-        blockSize = 0;
-    }
-    QByteArray array(size, Qt::Uninitialized);
-    in >> array;
-    QByteArray hash(chat::sizeHash, Qt::Uninitialized);
-    in >> hash;
-    // Вычисляем хэш и сравниваем
-    //...
-    // Если все в порядке, то оповещаем о приеме новых данных
-    emit dataReceived(QJsonDocument::fromBinaryData(array).object());
+    //emit dataReceived(QJsonDocument::fromBinaryData(array).object());
 }
 
 void chat::ChatTCPManager::onSocketError(QAbstractSocket::SocketError err)

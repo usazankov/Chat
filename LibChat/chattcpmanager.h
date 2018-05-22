@@ -35,6 +35,7 @@ private:
     quint32 blockSize;
     QHostAddress address;
     quint16 port;
+    int m_msgSize;
 };
 
 }
