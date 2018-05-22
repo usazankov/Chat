@@ -7,7 +7,6 @@
 #include <QVariantMap>
 #include "server_consts.h"
 #include "common_consts.h"
-#include "Requests/authrequest.h"
 #include "clientcommand.h"
 #include "common_consts.h"
 #include "chatrequest.h"

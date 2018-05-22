@@ -51,3 +51,30 @@ ClientCommand AuthHandler::data() const
     }
     return com;
 }
+
+AuthRequest::AuthRequest()
+{
+    userId = QString();
+}
+
+AuthRequest::AuthRequest(const AuthRequest &req) : userId(req.userId)
+{
+    int b = 0;
+}
+
+AuthRequest::AuthRequest(AuthRequest &&req) : userId(std::move(req.userId))
+{
+    int b = 0;
+}
+
+AuthRequest &AuthRequest::operator=(AuthRequest &&req)
+{
+    userId = std::move(req.userId);
+    return *this;
+}
+
+AuthRequest &AuthRequest::operator=(const AuthRequest &req)
+{
+    userId = req.userId;
+    return *this;
+}

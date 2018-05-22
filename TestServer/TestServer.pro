@@ -27,7 +27,6 @@ SOURCES += main.cpp \
     room.cpp \
     serverevent.cpp \
     clientcommand.cpp \
-    Requests/authrequest.cpp \
     handlerrequest.cpp \
     Handlers/authhandler.cpp \
     iparserrequest.cpp \
@@ -44,7 +43,6 @@ HEADERS += \
     room.h \
     serverevent.h \
     clientcommand.h \
-    Requests/authrequest.h \
     handlerrequest.h \
     Handlers/authhandler.h \
     iparserrequest.h \

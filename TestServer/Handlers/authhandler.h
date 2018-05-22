@@ -2,7 +2,7 @@
 #define AUTHHANDLER_H
 
 #include "handlerrequest.h"
-
+class AuthRequest;
 class AuthHandler : public HandlerRequest
 {
 public:
@@ -13,6 +13,18 @@ private:
     // HandlerRequest interface
 public:
     ClientCommand data() const;
+};
+
+class AuthRequest
+{
+public:
+    AuthRequest();
+    AuthRequest(const AuthRequest &req);
+    AuthRequest(AuthRequest &&req);
+    AuthRequest& operator=(AuthRequest&& req) ;
+    AuthRequest& operator=(const AuthRequest& req) ;
+    ~AuthRequest(){}
+    QString userId;
 };
 
 #endif // AUTHHANDLER_H

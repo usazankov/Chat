@@ -9,11 +9,6 @@ ParserClientJson::ParserClientJson(const QByteArray &arr) : IParserRequest()
     if(!doc.isObject()){
         qDebug()<<"error:"<< error.errorString();
     }
-    QFile file("test.txt");
-    file.open(QIODevice::WriteOnly);
-    QDataStream input(&file);
-    input << arr;
-    file.close();
 }
 
 ParserClientJson::~ParserClientJson()

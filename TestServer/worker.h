@@ -1,8 +1,6 @@
 #ifndef WORKER_H
 #define WORKER_H
 
-#include <QObject>
-#include <QRunnable>
 #include <QJsonDocument>
 #include <QScopedPointer>
 #include "iparserrequest.h"
@@ -15,7 +13,7 @@
 #include <QDebug>
 
 namespace Worker {
-    ClientCommand run(const QByteArray &arr);
-    ClientCommand run(const ServerEvent &event);
+    ClientCommand executeClientRequest(const QByteArray &arr);
+    ClientCommand executeServerEvent(const ServerEvent &event);
 }
 #endif // WORKER_H

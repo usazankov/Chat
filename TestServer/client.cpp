@@ -45,7 +45,7 @@ void Client::onServerEvent(const ServerEvent &event)
 {
     QFutureWatcher<ClientCommand> *watcher = new QFutureWatcher<ClientCommand>;
     connect(watcher, SIGNAL(finished()), this, SLOT(onResultReady()));
-    watcher->setFuture(QtConcurrent::run(Worker::run, event));
+    watcher->setFuture(QtConcurrent::run(Worker::executeServerEvent, event));
 }
 
 void Client::onReadyRead()
@@ -66,7 +66,7 @@ void Client::onReadyRead()
             m_msgSize = -1;
             QFutureWatcher<ClientCommand> *watcher = new QFutureWatcher<ClientCommand>;
             connect(watcher, SIGNAL(finished()), this, SLOT(onResultReady()));
-            watcher->setFuture(QtConcurrent::run(Worker::run, arr));
+            watcher->setFuture(QtConcurrent::run(Worker::executeClientRequest, arr));
         }
     }
 }
