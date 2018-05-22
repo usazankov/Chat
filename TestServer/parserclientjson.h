@@ -8,17 +8,12 @@
 
 class ParserClientJson : public IParserRequest
 {
-    Q_OBJECT
 public:
-    explicit ParserClientJson(const QByteArray &arr, QObject *parent = nullptr);
-
+    explicit ParserClientJson(const QByteArray &arr);
     virtual ~ParserClientJson();
 private:
     QJsonDocument doc;
     QJsonParseError error;
-signals:
-
-public slots:
 
     // IParserRequest interface
 public:

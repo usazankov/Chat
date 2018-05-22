@@ -14,22 +14,8 @@
 #include "common_consts.h"
 #include <QDebug>
 
-class Worker : public QObject, public QRunnable
-{
-    Q_OBJECT
-public:
-    explicit Worker(const QByteArray &arr, QObject *parent = nullptr);
-    explicit Worker(const ServerEvent &event, QObject *parent = nullptr);
-    ~Worker();
-private:
-    QScopedPointer<IParserRequest> parser_ptr;
-signals:
-    void result(const ClientCommand &com);
-public slots:
-
-    // QRunnable interface
-public:
-    void run();
-};
-
+namespace Worker {
+    ClientCommand run(const QByteArray &arr);
+    ClientCommand run(const ServerEvent &event);
+}
 #endif // WORKER_H

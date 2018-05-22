@@ -6,8 +6,8 @@
 class AuthHandler : public HandlerRequest
 {
 public:
-    explicit AuthHandler(QObject *parent = nullptr);
-    explicit AuthHandler(QJsonDocument *doc, QObject *parent = nullptr);
+    explicit AuthHandler();
+    explicit AuthHandler(QJsonDocument *doc);
 private:
     AuthRequest convertToAuthRequest() const;
     // HandlerRequest interface

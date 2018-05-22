@@ -1,11 +1,11 @@
 #include "authhandler.h"
 
-AuthHandler::AuthHandler(QObject *parent) : HandlerRequest(parent)
+AuthHandler::AuthHandler() : HandlerRequest()
 {
 
 }
 
-AuthHandler::AuthHandler(QJsonDocument *doc, QObject *parent) : HandlerRequest(doc, parent)
+AuthHandler::AuthHandler(QJsonDocument *doc) : HandlerRequest(doc)
 {
 
 }

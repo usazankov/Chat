@@ -7,9 +7,8 @@
 
 class ParserServerEvent : public IParserRequest
 {
-    Q_OBJECT
 public:
-    explicit ParserServerEvent(const ServerEvent &event, QObject *parent = nullptr);
+    explicit ParserServerEvent(const ServerEvent &event);
     virtual ~ParserServerEvent();
 
     // IParserRequest interface

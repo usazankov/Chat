@@ -5,11 +5,10 @@
 #include "handlerrequest.h"
 #include "clientcommand.h"
 
-class IParserRequest : public QObject
+class IParserRequest
 {
-    Q_OBJECT
 public:
-    explicit IParserRequest(QObject *parent = nullptr);
+    explicit IParserRequest();
     virtual ~IParserRequest();
     virtual ClientCommand response() = 0;
 

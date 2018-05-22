@@ -13,12 +13,11 @@
 #include "chatrequest.h"
 #include <QDebug>
 
-class HandlerRequest : public QObject
+class HandlerRequest
 {
-    Q_OBJECT
 public:
-    explicit HandlerRequest(QObject *parent = nullptr);
-    explicit HandlerRequest(QJsonDocument *doc, QObject *parent = nullptr);
+    explicit HandlerRequest();
+    explicit HandlerRequest(QJsonDocument *doc);
     virtual ~HandlerRequest();
 
     void setJsonDocument(QJsonDocument *doc);
@@ -32,9 +31,6 @@ protected:
     QJsonDocument *doc;
 private:
 
-signals:
-
-public slots:
 };
 namespace server_consts {
 template< typename T >

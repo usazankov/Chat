@@ -1,11 +1,11 @@
 #include "handlerrequest.h"
 
-HandlerRequest::HandlerRequest(QObject *parent) : QObject(parent)
+HandlerRequest::HandlerRequest()
 {
     type = server_consts::Undefined;
 }
 
-HandlerRequest::HandlerRequest(QJsonDocument *doc, QObject *parent) : QObject(parent)
+HandlerRequest::HandlerRequest(QJsonDocument *doc)
 {
     this->doc = doc;
     type = server_consts::Undefined;

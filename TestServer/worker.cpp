@@ -1,21 +1,13 @@
 #include "worker.h"
 
-Worker::Worker(const QByteArray &arr, QObject *parent) : QObject(parent)
+ClientCommand Worker::run(const QByteArray &arr)
 {
-    parser_ptr.reset(new ParserClientJson(arr, this));
+    QScopedPointer<IParserRequest> parser_ptr(new ParserClientJson(arr));
+    return parser_ptr->response();
 }
 
-Worker::Worker(const ServerEvent &event, QObject *parent) : QObject(parent)
+ClientCommand Worker::run(const ServerEvent &event)
 {
-    parser_ptr.reset(new ParserServerEvent(event, this));
-}
-
-Worker::~Worker()
-{
-
-}
-
-void Worker::run()
-{
-    emit result(parser_ptr->response());
+    QScopedPointer<IParserRequest> parser_ptr(new ParserServerEvent(event));
+    return parser_ptr->response();
 }

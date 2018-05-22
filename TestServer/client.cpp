@@ -7,6 +7,7 @@ Client::Client(Server *server, QTcpSocket *sock) : QObject(server), socket(sock)
     d_ptr->isAuth = false;
     connect(socket,SIGNAL(readyRead()),this,SLOT(onReadyRead()));
     connect(socket,SIGNAL(disconnected()),this,SLOT(onDisconnected()));
+    m_msgSize = -1;
 }
 
 QTcpSocket *Client::getSocket()
@@ -17,13 +18,6 @@ QTcpSocket *Client::getSocket()
 Client::~Client()
 {
     delete d_ptr;
-}
-
-void Client::runWorker(Worker *worker)
-{
-    //connect(worker, SIGNAL(result(ClientCommand)),this,SLOT(onResultReady(ClientCommand)));
-    worker->setAutoDelete(true);
-    QThreadPool::globalInstance()->start(worker);
 }
 
 bool Client::isAuthenticated(const ClientCommand &com)
@@ -49,8 +43,9 @@ Client::Client(ClientPrivate &dd, QObject *parent):QObject(parent),d_ptr(&dd)
 
 void Client::onServerEvent(const ServerEvent &event)
 {
-    //Worker *worker = new Worker(event);
-    //runWorker(worker);
+    QFutureWatcher<ClientCommand> *watcher = new QFutureWatcher<ClientCommand>;
+    connect(watcher, SIGNAL(finished()), this, SLOT(onResultReady()));
+    watcher->setFuture(QtConcurrent::run(Worker::run, event));
 }
 
 void Client::onReadyRead()
@@ -65,10 +60,13 @@ void Client::onReadyRead()
         else {
             if (socket->bytesAvailable() < m_msgSize)
                 return;
-            QByteArray arr = socket->readAll();
+            QByteArray arr = socket->read(m_msgSize);
+            qDebug() << "Readed:";
+            qDebug() << arr;
             m_msgSize = -1;
-            Worker *worker = new Worker(arr);
-            runWorker(worker);
+            QFutureWatcher<ClientCommand> *watcher = new QFutureWatcher<ClientCommand>;
+            connect(watcher, SIGNAL(finished()), this, SLOT(onResultReady()));
+            watcher->setFuture(QtConcurrent::run(Worker::run, arr));
         }
     }
 }
@@ -81,8 +79,11 @@ void Client::onDisconnected()
     deleteLater();
 }
 
-void Client::onResultReady(const ClientCommand &com)
+void Client::onResultReady()
 {
+    QFutureWatcher<ClientCommand> *watcher = static_cast<QFutureWatcher<ClientCommand>*>(sender());
+     Q_ASSERT(watcher);
+    ClientCommand com = watcher->result();
     if(!isAuthenticated(com))
         return;
     if(com.type == server_consts::SendToThisClient){

@@ -11,7 +11,9 @@
 #include <QScopedPointer>
 #include "serverevent.h"
 #include "clientcommand.h"
-
+#include <QFutureWatcher>
+#include <QFuture>
+#include <qtconcurrentrun.h>
 class ClientPrivate;
 class Server;
 class Client : public QObject
@@ -25,7 +27,6 @@ private:
     Q_DECLARE_PRIVATE(Client)
     QTcpSocket *socket;
     qint32 m_msgSize;
-    void runWorker(Worker *worker);
     bool isAuthenticated(const ClientCommand &com = ClientCommand());
     void writeToSocket(const QByteArray &req);
 protected:
@@ -36,7 +37,7 @@ public slots:
 private slots:
     void onReadyRead();
     void onDisconnected();
-    void onResultReady(const ClientCommand &com);
+    void onResultReady();
 };
 Q_DECLARE_METATYPE(Client*)
 #endif // CLIENT_H
