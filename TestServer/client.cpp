@@ -25,6 +25,9 @@ bool Client::isAuthenticated(const ClientCommand &com)
     if(com.type == server_consts::AuthenticationClient){
         if(com.result == server_consts::SUCCESS){
             d_ptr->isAuth = true;
+            QString userId = com.params[chat::USER_ID].toString();
+            if(!userId.isNull())
+                d_ptr->server->addClient(userId, this);
         }
         writeToSocket(com.data);
     }

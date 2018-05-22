@@ -10,7 +10,8 @@ class ParserServerEvent : public IParserRequest
 public:
     explicit ParserServerEvent(const ServerEvent &event);
     virtual ~ParserServerEvent();
-
+private:
+    QVariantMap map;
     // IParserRequest interface
 public:
     ClientCommand response();

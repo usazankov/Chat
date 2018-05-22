@@ -42,6 +42,7 @@ ClientCommand AuthHandler::data() const
         req.addChildObj(chat::COMMAND_OBJ, chat::ChatRequest(chat::COMMAND_ID, chat::C_AUTH_REQ));
         req.addProperty(chat::USER_ID, userID);
         req.addProperty(chat::CODE_RESP, chat::AUTH_SUCCESS);
+        com.params[chat::USER_ID] = QVariant(userID);
         com.data = req.toRequest();
     }else{
         qDebug() << "data is not valid";
@@ -59,12 +60,12 @@ AuthRequest::AuthRequest()
 
 AuthRequest::AuthRequest(const AuthRequest &req) : userId(req.userId)
 {
-    int b = 0;
+
 }
 
 AuthRequest::AuthRequest(AuthRequest &&req) : userId(std::move(req.userId))
 {
-    int b = 0;
+
 }
 
 AuthRequest &AuthRequest::operator=(AuthRequest &&req)
