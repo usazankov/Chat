@@ -1,0 +1,33 @@
+#include "getlistusershandler.h"
+
+GetListUsersHandler::GetListUsersHandler(const QString &sourceUser)
+{
+    idUser = sourceUser;
+}
+
+ClientCommand GetListUsersHandler::data() const
+{
+    std::unordered_set<std::string> set = GlobalStorage::instance().getUsers();
+    ClientCommand com;
+    com.type = server_consts::SendToThisClient;
+    QJsonArray arr;
+    QJsonObject root;
+    for(std::string item : set){
+        if(idUser == QString::fromStdString(item))
+            continue;
+        QJsonObject user;
+        user[chat::USER_ID] = QString::fromStdString(item);
+        QJsonObject user_obj;
+        user_obj.insert(chat::USER_OBJ, user);
+        arr.append(user_obj);
+    }
+    root.insert(chat::USERS_LIST, arr);
+    chat::ChatRequest req;
+    com.data = req;
+    if(set.empty()){
+        com.result = server_consts::UndefinedError;
+    }else{
+        com.result = server_consts::SUCCESS;
+    }
+    return com;
+}

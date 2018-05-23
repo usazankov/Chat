@@ -13,7 +13,10 @@
 #include <QDebug>
 
 namespace Worker {
+    //Обработать запрос от клиента
     ClientCommand executeClientRequest(const QByteArray &arr);
+
+    //Обработать событие от сервера
     ClientCommand executeServerEvent(const ServerEvent &event);
 }
 #endif // WORKER_H

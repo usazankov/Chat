@@ -4,7 +4,7 @@ ClientCommand::ClientCommand()
 {
     result = server_consts::UndefinedError;
     type = server_consts::Undefined;
-    data = QByteArray();
+    data = chat::ChatRequest();
     params = QVariantMap();
 }
 

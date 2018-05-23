@@ -14,6 +14,8 @@
 #include <QFutureWatcher>
 #include <QFuture>
 #include <qtconcurrentrun.h>
+#include <iostream>
+
 class ClientPrivate;
 class Server;
 class Client : public QObject

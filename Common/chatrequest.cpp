@@ -10,6 +10,11 @@ chat::ChatRequest::ChatRequest(const QString &key, const QString &value)
     json.insert(key, value);
 }
 
+chat::ChatRequest::ChatRequest(const QJsonObject &obj)
+{
+    json = obj;
+}
+
 chat::ChatRequest &chat::ChatRequest::addProperty(const QString &key, const QString &value)
 {
     json.insert(key, value);
@@ -31,9 +36,10 @@ chat::ChatRequest &chat::ChatRequest::addChildObj(const QString &key, const Chat
 
 chat::ChatRequest &chat::ChatRequest::clear()
 {
-    for(auto iter = json.begin(); iter != json.end(); iter++){
+    /*for(auto iter = json.begin(); iter != json.end(); iter++){
         json.erase(iter);
-    }
+    }*/
+    json = QJsonObject();
     return *this;
 }
 
@@ -47,16 +53,6 @@ std::string chat::ChatRequest::toString() const
     QJsonDocument doc(json);
     QString strJson(doc.toJson(QJsonDocument::Compact));
     return strJson.toStdString();
-}
-
-chat::ChatRequest chat::ChatRequest::fromJsonObject(const QJsonObject &obj)
-{
-    return chat::ChatRequest();
-}
-
-chat::ChatRequest chat::ChatRequest::fromVariantMap(const QVariantMap &obj)
-{
-    return chat::ChatRequest();
 }
 
 QByteArray chat::ChatRequest::toRequest() const

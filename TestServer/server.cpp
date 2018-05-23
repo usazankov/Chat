@@ -41,7 +41,7 @@ void Server::removeClient(const QString &idUser)
     ServerEvent event;
     event.type = ServerEvent::DisconnectedUser;
     event.data[chat::USER_ID] = QVariant(idUser);
-    //emit serverEvent(event);
+    emit serverEvent(event);
 }
 
 void Server::executeCommand(const ClientCommand &com)

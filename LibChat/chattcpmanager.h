@@ -7,6 +7,8 @@
 #include <QTcpSocket>
 #include <QHostAddress>
 #include "../Common/common_consts.h"
+#include <iostream>
+
 namespace chat {
 
 class ChatTCPManager : public IChatNetworkManager

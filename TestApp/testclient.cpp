@@ -5,7 +5,11 @@ TestClient::TestClient(QObject *parent) : QObject(parent)
     connect(chat::LibChat::instance().getChatClient()->getNetworkManager(),SIGNAL(error(chat::IChatNetworkManager::ErrorNetwork)),this,SLOT(printError(chat::IChatNetworkManager::ErrorNetwork)));
     QHostAddress adr(QHostAddress::LocalHost);
     chat::PersonalData data;
-    data.setUserName("Yura");
+    int seed = QTime::currentTime().msecsSinceStartOfDay();
+    srand(seed);
+    int x = rand() % 1000000;
+    QString name("User_");
+    data.setUserName(name + QString::number(x));
     chat::LibChat::instance().connectToChat(adr, 1024);
     chat::LibChat::instance().authorization(data);
     //chat::LibChat::instance().getUsers();

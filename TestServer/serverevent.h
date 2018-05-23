@@ -11,7 +11,8 @@ public:
     enum EventType{
         UndefinedEvent,
         ConnectedUser,
-        DisconnectedUser
+        DisconnectedUser,
+        GetListUsers
     };
     QVariantMap data;
     EventType type;

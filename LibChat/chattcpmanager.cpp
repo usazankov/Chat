@@ -62,8 +62,8 @@ void chat::ChatTCPManager::onSocketReadyRead()
             if (socket->bytesAvailable() < m_msgSize)
                 return;
             QByteArray arr = socket->read(m_msgSize);
-            qDebug() << "Received:";
-            qDebug() << arr;
+            std::cout << "\nReceived " << m_msgSize <<" Byte:\n";
+            std::cout << arr.toStdString() << "\n";
             m_msgSize = -1;
 
         }

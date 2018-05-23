@@ -5,7 +5,9 @@
 #include "libchat.h"
 #include <QHostAddress>
 #include <iostream>
-
+#include <QRandomGenerator>
+#include <cstdlib>
+#include <QTime>
 class TestClient : public QObject
 {
     Q_OBJECT

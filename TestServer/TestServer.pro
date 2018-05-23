@@ -5,7 +5,7 @@ CONFIG -= app_bundle
 
 INCLUDEPATH += $$PWD/../Common/
 INCLUDEPATH += $$PWD/../LibChat/
-LIBS += -L$$PWD/../libs -lLibChat
+LIBS += -L$$PWD/../Out -lLibChat
 DESTDIR = $$PWD/../Out
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -31,7 +31,8 @@ SOURCES += main.cpp \
     Handlers/authhandler.cpp \
     iparserrequest.cpp \
     parserclientjson.cpp \
-    parserserverevent.cpp
+    parserserverevent.cpp \
+    Handlers/getlistusershandler.cpp
 
 HEADERS += \
     server.h \
@@ -47,4 +48,5 @@ HEADERS += \
     Handlers/authhandler.h \
     iparserrequest.h \
     parserclientjson.h \
-    parserserverevent.h
+    parserserverevent.h \
+    Handlers/getlistusershandler.h

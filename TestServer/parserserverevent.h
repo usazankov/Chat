@@ -4,6 +4,7 @@
 #include <QObject>
 #include "iparserrequest.h"
 #include "serverevent.h"
+#include "Handlers/getlistusershandler.h"
 
 class ParserServerEvent : public IParserRequest
 {
@@ -11,7 +12,7 @@ public:
     explicit ParserServerEvent(const ServerEvent &event);
     virtual ~ParserServerEvent();
 private:
-    QVariantMap map;
+    ServerEvent event;
     // IParserRequest interface
 public:
     ClientCommand response();

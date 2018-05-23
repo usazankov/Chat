@@ -5,6 +5,7 @@ Client::Client(Server *server, QTcpSocket *sock) : QObject(server), socket(sock)
     d_ptr->q_ptr = this;
     d_ptr->server = server;
     d_ptr->isAuth = false;
+    d_ptr->isFirst = true;
     connect(socket,SIGNAL(readyRead()),this,SLOT(onReadyRead()));
     connect(socket,SIGNAL(disconnected()),this,SLOT(onDisconnected()));
     m_msgSize = -1;
@@ -24,12 +25,15 @@ bool Client::isAuthenticated(const ClientCommand &com)
 {
     if(com.type == server_consts::AuthenticationClient){
         if(com.result == server_consts::SUCCESS){
-            d_ptr->isAuth = true;
+
             QString userId = com.params[chat::USER_ID].toString();
-            if(!userId.isNull())
+            if(!userId.isNull()){
+                d_ptr->isAuth = true;
+                d_ptr->idUser = userId;
                 d_ptr->server->addClient(userId, this);
+            }
         }
-        writeToSocket(com.data);
+        writeToSocket(com.data.toRequest());
     }
     return d_ptr->isAuth;
 }
@@ -46,6 +50,9 @@ Client::Client(ClientPrivate &dd, QObject *parent):QObject(parent),d_ptr(&dd)
 
 void Client::onServerEvent(const ServerEvent &event)
 {
+    if(event.data[chat::USER_ID] == d_ptr->idUser && (
+                event.type == ServerEvent::ConnectedUser || event.type == ServerEvent::DisconnectedUser)) //Информацию о самом себе не отправляем
+        return;
     QFutureWatcher<ClientCommand> *watcher = new QFutureWatcher<ClientCommand>;
     connect(watcher, SIGNAL(finished()), this, SLOT(onResultReady()));
     watcher->setFuture(QtConcurrent::run(Worker::executeServerEvent, event));
@@ -64,8 +71,8 @@ void Client::onReadyRead()
             if (socket->bytesAvailable() < m_msgSize)
                 return;
             QByteArray arr = socket->read(m_msgSize);
-            qDebug() << "Readed:";
-            qDebug() << arr;
+            std::cout << "\nReaded: " << m_msgSize <<" Byte:\n";
+            std::cout << arr.toStdString() << "\n";
             m_msgSize = -1;
             QFutureWatcher<ClientCommand> *watcher = new QFutureWatcher<ClientCommand>;
             connect(watcher, SIGNAL(finished()), this, SLOT(onResultReady()));
@@ -85,12 +92,22 @@ void Client::onDisconnected()
 void Client::onResultReady()
 {
     QFutureWatcher<ClientCommand> *watcher = static_cast<QFutureWatcher<ClientCommand>*>(sender());
-     Q_ASSERT(watcher);
+    Q_ASSERT(watcher);
     ClientCommand com = watcher->result();
-    if(!isAuthenticated(com))
+    if(isAuthenticated(com)){
+        if(d_ptr->isFirst){
+            ServerEvent event;
+            event.type = ServerEvent::GetListUsers;
+            event.data[chat::USER_ID] = d_ptr->idUser;
+            onServerEvent(event);
+            d_ptr->isFirst = false;
+        }
+    }
+    else{
         return;
+    }
     if(com.type == server_consts::SendToThisClient){
-        writeToSocket(com.data);
+        writeToSocket(com.data.toRequest());
         return;
     }
     d_ptr->server->executeCommand(com);

@@ -4,6 +4,7 @@
 #include <QObject>
 #include "server_consts.h"
 #include <QVariantMap>
+#include "chatrequest.h"
 
 class ClientCommand
 {
@@ -16,7 +17,7 @@ public:
     QVariantMap params;
     server_consts::Result result;
     server_consts::CommandType type;
-    QByteArray data;
+    chat::ChatRequest data;
 };
 Q_DECLARE_METATYPE(ClientCommand)
 #endif // CLIENTCOMMAND_H

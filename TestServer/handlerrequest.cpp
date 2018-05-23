@@ -2,6 +2,7 @@
 
 HandlerRequest::HandlerRequest()
 {
+    doc = nullptr;
     type = server_consts::Undefined;
 }
 
