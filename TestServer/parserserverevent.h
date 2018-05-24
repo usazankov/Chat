@@ -13,6 +13,8 @@ public:
     virtual ~ParserServerEvent();
 private:
     ServerEvent event;
+    chat::ChatRequest userConnected();
+    chat::ChatRequest userDisconnected();
     // IParserRequest interface
 public:
     ClientCommand response();

@@ -14,6 +14,7 @@ class Server : public QObject
     Q_OBJECT
 public:
     explicit Server(QObject *parent = nullptr);
+    virtual ~Server();
 
     //Запустить сервер
     void startServer(const QHostAddress &address, quint16 port);

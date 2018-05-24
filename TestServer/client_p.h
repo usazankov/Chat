@@ -15,7 +15,6 @@ public:
     QByteArray token;
     QString idUser;
     bool isAuth;
-    bool isFirst;
     Client *q_ptr;
     Server *server;
 };

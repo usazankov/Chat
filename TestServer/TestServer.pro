@@ -32,7 +32,8 @@ SOURCES += main.cpp \
     iparserrequest.cpp \
     parserclientjson.cpp \
     parserserverevent.cpp \
-    Handlers/getlistusershandler.cpp
+    Handlers/getlistusershandler.cpp \
+    Handlers/sendmessagehandler.cpp
 
 HEADERS += \
     server.h \
@@ -49,4 +50,5 @@ HEADERS += \
     iparserrequest.h \
     parserclientjson.h \
     parserserverevent.h \
-    Handlers/getlistusershandler.h
+    Handlers/getlistusershandler.h \
+    Handlers/sendmessagehandler.h

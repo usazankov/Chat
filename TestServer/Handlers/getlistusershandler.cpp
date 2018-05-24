@@ -22,7 +22,7 @@ ClientCommand GetListUsersHandler::data() const
         arr.append(user_obj);
     }
     root.insert(chat::USERS_LIST, arr);
-    chat::ChatRequest req;
+    chat::ChatRequest req(root);
     com.data = req;
     if(set.empty()){
         com.result = server_consts::UndefinedError;

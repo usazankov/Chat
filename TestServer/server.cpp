@@ -6,6 +6,11 @@ Server::Server(QObject *parent) : QObject(parent)
     qRegisterMetaType<ClientCommand>();
 }
 
+Server::~Server()
+{
+
+}
+
 void Server::onNewConnection()
 {
     Client *client = new Client(this, m_ptcpServer->nextPendingConnection()); // Удалять клиент будет сам себя при дисконекте

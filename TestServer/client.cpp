@@ -5,7 +5,6 @@ Client::Client(Server *server, QTcpSocket *sock) : QObject(server), socket(sock)
     d_ptr->q_ptr = this;
     d_ptr->server = server;
     d_ptr->isAuth = false;
-    d_ptr->isFirst = true;
     connect(socket,SIGNAL(readyRead()),this,SLOT(onReadyRead()));
     connect(socket,SIGNAL(disconnected()),this,SLOT(onDisconnected()));
     m_msgSize = -1;
@@ -25,13 +24,15 @@ bool Client::isAuthenticated(const ClientCommand &com)
 {
     if(com.type == server_consts::AuthenticationClient){
         if(com.result == server_consts::SUCCESS){
-
             QString userId = com.params[chat::USER_ID].toString();
-            if(!userId.isNull()){
-                d_ptr->isAuth = true;
-                d_ptr->idUser = userId;
-                d_ptr->server->addClient(userId, this);
-            }
+            if(userId.isNull())
+                return false;
+            d_ptr->isAuth = true;
+            d_ptr->idUser = userId;
+            d_ptr->server->addClient(userId, this);
+
+            //После успешной авторизации возвращаем список пользователей
+            getUsersList();
         }
         writeToSocket(com.data.toRequest());
     }
@@ -43,6 +44,24 @@ void Client::writeToSocket(const QByteArray &req)
     socket->write(req);
 }
 
+bool Client::filterEvent(const ServerEvent &event)
+{
+    if(d_ptr->idUser.isEmpty())
+        return false;
+    if(event.data[chat::USER_ID] == d_ptr->idUser && (
+                event.type == ServerEvent::ConnectedUser || event.type == ServerEvent::DisconnectedUser)) //Информацию о самом себе не отправляем
+        return false;
+    return true;
+}
+
+void Client::getUsersList()
+{
+    ServerEvent event;
+    event.type = ServerEvent::GetListUsers;
+    event.data[chat::USER_ID] = d_ptr->idUser;
+    onServerEvent(event);
+}
+
 Client::Client(ClientPrivate &dd, QObject *parent):QObject(parent),d_ptr(&dd)
 {
 
@@ -50,8 +69,7 @@ Client::Client(ClientPrivate &dd, QObject *parent):QObject(parent),d_ptr(&dd)
 
 void Client::onServerEvent(const ServerEvent &event)
 {
-    if(event.data[chat::USER_ID] == d_ptr->idUser && (
-                event.type == ServerEvent::ConnectedUser || event.type == ServerEvent::DisconnectedUser)) //Информацию о самом себе не отправляем
+    if(!filterEvent(event))
         return;
     QFutureWatcher<ClientCommand> *watcher = new QFutureWatcher<ClientCommand>;
     connect(watcher, SIGNAL(finished()), this, SLOT(onResultReady()));
@@ -71,7 +89,9 @@ void Client::onReadyRead()
             if (socket->bytesAvailable() < m_msgSize)
                 return;
             QByteArray arr = socket->read(m_msgSize);
-            std::cout << "\nReaded: " << m_msgSize <<" Byte:\n";
+            QDateTime dt = QDateTime::currentDateTime();
+
+            std::cout << "Time: "<<dt.toString(Qt::SystemLocaleDate).toStdString() <<" Received request " << m_msgSize <<" Byte:\n";
             std::cout << arr.toStdString() << "\n";
             m_msgSize = -1;
             QFutureWatcher<ClientCommand> *watcher = new QFutureWatcher<ClientCommand>;
@@ -94,16 +114,8 @@ void Client::onResultReady()
     QFutureWatcher<ClientCommand> *watcher = static_cast<QFutureWatcher<ClientCommand>*>(sender());
     Q_ASSERT(watcher);
     ClientCommand com = watcher->result();
-    if(isAuthenticated(com)){
-        if(d_ptr->isFirst){
-            ServerEvent event;
-            event.type = ServerEvent::GetListUsers;
-            event.data[chat::USER_ID] = d_ptr->idUser;
-            onServerEvent(event);
-            d_ptr->isFirst = false;
-        }
-    }
-    else{
+    watcher->deleteLater();
+    if(!isAuthenticated(com)){
         return;
     }
     if(com.type == server_consts::SendToThisClient){

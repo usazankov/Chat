@@ -15,6 +15,7 @@
 #include <QFuture>
 #include <qtconcurrentrun.h>
 #include <iostream>
+#include <QDateTime>
 
 class ClientPrivate;
 class Server;
@@ -31,6 +32,8 @@ private:
     qint32 m_msgSize;
     bool isAuthenticated(const ClientCommand &com = ClientCommand());
     void writeToSocket(const QByteArray &req);
+    bool filterEvent(const ServerEvent &event);
+    void getUsersList();
 protected:
     ClientPrivate * const d_ptr;
     Client(ClientPrivate &dd, QObject *parent);
