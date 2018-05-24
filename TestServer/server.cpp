@@ -13,7 +13,7 @@ Server::~Server()
 
 void Server::onNewConnection()
 {
-    Client *client = new Client(this, m_ptcpServer->nextPendingConnection()); // Удалять клиент будет сам себя при дисконекте
+    new Client(this, m_ptcpServer->nextPendingConnection()); // Удалять клиент будет сам себя при дисконекте
 }
 
 void Server::startServer(const QHostAddress &address, quint16 port)

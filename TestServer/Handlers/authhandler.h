@@ -12,7 +12,7 @@ private:
     AuthRequest convertToAuthRequest() const;
     // HandlerRequest interface
 public:
-    ClientCommand data() const;
+    ClientCommandPtr data() const;
 };
 
 class AuthRequest

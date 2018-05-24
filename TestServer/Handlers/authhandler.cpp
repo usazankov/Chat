@@ -20,35 +20,35 @@ AuthRequest AuthHandler::convertToAuthRequest() const
     return req;
 }
 
-ClientCommand AuthHandler::data() const
+ClientCommandPtr AuthHandler::data() const
 {
-    ClientCommand com;
+    ClientCommandPtr com(new ClientCommand);
     chat::ChatRequest req;
     qDebug() << "authorization()";
     AuthRequest authData = convertToAuthRequest();
     QString userID = authData.userId;
-    com.type = server_consts::AuthenticationClient;
+    com->type = server_consts::AuthenticationClient;
     if(userID.isNull()){
         qDebug() << "UserId is NULL";
-        com.result = server_consts::MissingUserID;
+        com->result = server_consts::MissingUserID;
         req.addProperty(chat::CODE_RESP, chat::C_ERROR);
-        com.data = req;
+        com->data = req;
         return com;
     }
     qDebug() << "userId: " << userID;
     if(1){//Проверка данных на валидацию
-        com.result = server_consts::SUCCESS;
+        com->result = server_consts::SUCCESS;
         qDebug() << "data is valid";
         req.addChildObj(chat::COMMAND_OBJ, chat::ChatRequest(chat::COMMAND_ID, chat::C_AUTH_REQ));
         req.addProperty(chat::USER_ID, userID);
         req.addProperty(chat::CODE_RESP, chat::AUTH_SUCCESS);
-        com.params[chat::USER_ID] = QVariant(userID);
-        com.data = req;
+        com->params[chat::USER_ID] = QVariant(userID);
+        com->data = req;
     }else{
         qDebug() << "data is not valid";
-        com.result = server_consts::UndefinedError;
+        com->result = server_consts::UndefinedError;
         req.addProperty(chat::CODE_RESP, chat::C_ERROR);
-        com.data = req;
+        com->data = req;
     }
     return com;
 }

@@ -23,7 +23,7 @@ public:
     QJsonDocument *getJsonDocument()const;
 
     //Вернуть результат
-    virtual ClientCommand data()const = 0;
+    virtual ClientCommandPtr data()const = 0;
 
 protected:
     server_consts::CommandType type;

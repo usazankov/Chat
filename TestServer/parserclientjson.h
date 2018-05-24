@@ -17,7 +17,7 @@ private:
 
     // IParserRequest interface
 public:
-    ClientCommand response();
+    ClientCommandPtr response();
 };
 
 #endif // PARSERCLIENTJSON_H

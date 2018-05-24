@@ -13,7 +13,7 @@ private:
     inline chat::ChatRequest createUserObj()const;
     // HandlerRequest interface
 public:
-    ClientCommand data() const;
+    ClientCommandPtr data() const;
 };
 
 #endif // GETLISTUSERSHANDLER_H

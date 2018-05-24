@@ -17,7 +17,7 @@ private:
     chat::ChatRequest userDisconnected();
     // IParserRequest interface
 public:
-    ClientCommand response();
+    ClientCommandPtr response();
 };
 
 #endif // PARSERSERVEREVENT_H

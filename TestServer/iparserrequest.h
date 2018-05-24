@@ -10,7 +10,7 @@ class IParserRequest
 public:
     explicit IParserRequest();
     virtual ~IParserRequest();
-    virtual ClientCommand response() = 0;
+    virtual ClientCommandPtr response() = 0;
 
 protected:
     HandlerRequest *handler;

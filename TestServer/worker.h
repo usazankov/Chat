@@ -14,9 +14,9 @@
 
 namespace Worker {
     //Обработать запрос от клиента
-    ClientCommand executeClientRequest(const QByteArray &arr);
+    ClientCommandPtr executeClientRequest(const QByteArray &arr);
 
     //Обработать событие от сервера
-    ClientCommand executeServerEvent(const ServerEvent &event);
+    ClientCommandPtr executeServerEvent(const ServerEvent &event);
 }
 #endif // WORKER_H

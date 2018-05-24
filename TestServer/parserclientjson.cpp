@@ -17,11 +17,12 @@ ParserClientJson::~ParserClientJson()
         delete handler;
 }
 
-ClientCommand ParserClientJson::response()
+ClientCommandPtr ParserClientJson::response()
 {
+    ClientCommandPtr com(new ClientCommand);
     if(error.error != QJsonParseError::NoError){
-        ClientCommand com;
-        com.result = server_consts::ErrorParseRequest;
+        ClientCommandPtr com(new ClientCommand);
+        com->result = server_consts::ErrorParseRequest;
         return com;
     }
     QString type = server_consts::getTypeCommand(doc.object());

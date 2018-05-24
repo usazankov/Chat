@@ -71,7 +71,7 @@ void Client::onServerEvent(const ServerEvent &event)
 {
     if(!filterEvent(event))
         return;
-    QFutureWatcher<ClientCommand> *watcher = new QFutureWatcher<ClientCommand>;
+    QFutureWatcher<ClientCommandPtr> *watcher = new QFutureWatcher<ClientCommandPtr>;
     connect(watcher, SIGNAL(finished()), this, SLOT(onResultReady()));
     watcher->setFuture(QtConcurrent::run(Worker::executeServerEvent, event));
 }
@@ -94,7 +94,7 @@ void Client::onReadyRead()
             std::cout << "Time: "<<dt.toString(Qt::SystemLocaleDate).toStdString() <<" Received request " << m_msgSize <<" Byte:\n";
             std::cout << arr.toStdString() << "\n";
             m_msgSize = -1;
-            QFutureWatcher<ClientCommand> *watcher = new QFutureWatcher<ClientCommand>;
+            QFutureWatcher<ClientCommandPtr> *watcher = new QFutureWatcher<ClientCommandPtr>;
             connect(watcher, SIGNAL(finished()), this, SLOT(onResultReady()));
             watcher->setFuture(QtConcurrent::run(Worker::executeClientRequest, arr));
         }
@@ -111,16 +111,20 @@ void Client::onDisconnected()
 
 void Client::onResultReady()
 {
-    QFutureWatcher<ClientCommand> *watcher = static_cast<QFutureWatcher<ClientCommand>*>(sender());
+    QFutureWatcher<ClientCommandPtr> *watcher = static_cast<QFutureWatcher<ClientCommandPtr>*>(sender());
     Q_ASSERT(watcher);
-    ClientCommand com = watcher->result();
+    if(!watcher)
+        return;
+    if(!watcher->result())
+        return;
+    ClientCommandPtr com = watcher->result();
     watcher->deleteLater();
-    if(!isAuthenticated(com)){
+    if(!isAuthenticated(*com)){
         return;
     }
-    if(com.type == server_consts::SendToThisClient){
-        writeToSocket(com.data.toRequest());
+    if(com->type == server_consts::SendToThisClient){
+        writeToSocket(com->data.toRequest());
         return;
     }
-    d_ptr->server->executeCommand(com);
+    d_ptr->server->executeCommand(*com);
 }

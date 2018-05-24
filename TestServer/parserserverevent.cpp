@@ -29,19 +29,21 @@ chat::ChatRequest ParserServerEvent::userDisconnected()
     return req;
 }
 
-ClientCommand ParserServerEvent::response()
+ClientCommandPtr ParserServerEvent::response()
 {
-    ClientCommand com;
-    com.type = server_consts::SendToThisClient;
-    chat::ChatRequest req;
     if(event.type == ServerEvent::ConnectedUser){
-        req = userConnected();
+        ClientCommandPtr com(new ClientCommand);
+        com->type = server_consts::SendToThisClient;
+        com->data = userConnected();
+        return com;
     }else if(event.type == ServerEvent::DisconnectedUser){
-        req = userDisconnected();
+        ClientCommandPtr com(new ClientCommand);
+        com->type = server_consts::SendToThisClient;
+        com->data = userDisconnected();
+        return com;
     }else if(event.type == ServerEvent::GetListUsers){
         handler = new GetListUsersHandler(event.data[chat::USER_ID].toString());
         return handler->data();
     }
-    com.data = req;
-    return com;
+
 }

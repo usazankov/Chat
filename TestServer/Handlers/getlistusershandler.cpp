@@ -5,11 +5,11 @@ GetListUsersHandler::GetListUsersHandler(const QString &sourceUser)
     idUser = sourceUser;
 }
 
-ClientCommand GetListUsersHandler::data() const
+ClientCommandPtr GetListUsersHandler::data() const
 {
     std::unordered_set<std::string> set = GlobalStorage::instance().getUsers();
-    ClientCommand com;
-    com.type = server_consts::SendToThisClient;
+    ClientCommandPtr com(new ClientCommand);
+    com->type = server_consts::SendToThisClient;
     QJsonArray arr;
     QJsonObject root;
     for(std::string item : set){
@@ -23,11 +23,11 @@ ClientCommand GetListUsersHandler::data() const
     }
     root.insert(chat::USERS_LIST, arr);
     chat::ChatRequest req(root);
-    com.data = req;
+    com->data = req;
     if(set.empty()){
-        com.result = server_consts::UndefinedError;
+        com->result = server_consts::UndefinedError;
     }else{
-        com.result = server_consts::SUCCESS;
+        com->result = server_consts::SUCCESS;
     }
     return com;
 }
