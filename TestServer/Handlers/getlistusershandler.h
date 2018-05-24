@@ -8,9 +8,10 @@ class GetListUsersHandler : public HandlerRequest
 {
 public:
     GetListUsersHandler(const QString &sourceUser = 0);
+    virtual ~GetListUsersHandler();
 private:
     QString idUser;
-    inline chat::ChatRequest createUserObj()const;
+
     // HandlerRequest interface
 public:
     ClientCommandPtr data() const;

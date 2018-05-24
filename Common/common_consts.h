@@ -72,5 +72,8 @@ namespace chat {
     const static TYPE_STR ERROR_NAME_INVALID = "Error_name_invalid"; //Недопустимое имя пользователя
     const static TYPE_STR ERROR_NAME_IS_USE = "Error_name_is_use"; //Имя пользователя уже используется
     //итд
+
+    const static TYPE_STR DATE = "Date"; //Дата
+    const static TYPE_STR TIME = "Time"; //Время
 }
 #endif // COMMON_CONSTS_H

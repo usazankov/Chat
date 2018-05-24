@@ -10,6 +10,7 @@
 #include "clientcommand.h"
 #include "common_consts.h"
 #include "chatrequest.h"
+#include "serverevent.h"
 #include <QDebug>
 
 class HandlerRequest

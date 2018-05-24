@@ -5,6 +5,11 @@ GetListUsersHandler::GetListUsersHandler(const QString &sourceUser)
     idUser = sourceUser;
 }
 
+GetListUsersHandler::~GetListUsersHandler()
+{
+
+}
+
 ClientCommandPtr GetListUsersHandler::data() const
 {
     std::unordered_set<std::string> set = GlobalStorage::instance().getUsers();

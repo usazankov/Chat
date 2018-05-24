@@ -19,7 +19,6 @@ ParserClientJson::~ParserClientJson()
 
 ClientCommandPtr ParserClientJson::response()
 {
-    ClientCommandPtr com(new ClientCommand);
     if(error.error != QJsonParseError::NoError){
         ClientCommandPtr com(new ClientCommand);
         com->result = server_consts::ErrorParseRequest;
@@ -29,5 +28,6 @@ ClientCommandPtr ParserClientJson::response()
     if(type == chat::C_AUTH_REQ){
         handler = new AuthHandler(&doc);
     }
+    handler = new TimeDecoratorHandler(handler);
     return handler->data();
 }

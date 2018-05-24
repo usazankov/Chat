@@ -11,39 +11,21 @@ ParserServerEvent::~ParserServerEvent()
         delete handler;
 }
 
-chat::ChatRequest ParserServerEvent::userConnected()
+bool ParserServerEvent::isUserStatus(ServerEvent::EventType eventType) const
 {
-    chat::ChatRequest req;
-    chat::ChatRequest ev(chat::EVENT_ID, chat::E_CONNECT_USER);
-    ev.addChildObj(chat::USER_OBJ, chat::ChatRequest(chat::USER_ID, event.data[chat::USER_ID].toString()));
-    req.addChildObj(chat::EVENT_OBJ, ev);
-    return req;
-}
-
-chat::ChatRequest ParserServerEvent::userDisconnected()
-{
-    chat::ChatRequest req;
-    chat::ChatRequest ev(chat::EVENT_ID, chat::E_DISCONNECT_USER);
-    ev.addChildObj(chat::USER_OBJ, chat::ChatRequest(chat::USER_ID, event.data[chat::USER_ID].toString()));
-    req.addChildObj(chat::EVENT_OBJ, ev);
-    return req;
+    if(eventType == ServerEvent::ConnectedUser
+            || eventType == ServerEvent::DisconnectedUser)
+        return true;
+    return false;
 }
 
 ClientCommandPtr ParserServerEvent::response()
 {
-    if(event.type == ServerEvent::ConnectedUser){
-        ClientCommandPtr com(new ClientCommand);
-        com->type = server_consts::SendToThisClient;
-        com->data = userConnected();
-        return com;
-    }else if(event.type == ServerEvent::DisconnectedUser){
-        ClientCommandPtr com(new ClientCommand);
-        com->type = server_consts::SendToThisClient;
-        com->data = userDisconnected();
-        return com;
+    if(isUserStatus(event.type)){
+        handler = new UserStatusHandler(event);
     }else if(event.type == ServerEvent::GetListUsers){
         handler = new GetListUsersHandler(event.data[chat::USER_ID].toString());
-        return handler->data();
     }
-
+    handler = new TimeDecoratorHandler(handler);
+    return handler->data();
 }

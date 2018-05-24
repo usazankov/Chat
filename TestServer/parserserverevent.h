@@ -5,7 +5,8 @@
 #include "iparserrequest.h"
 #include "serverevent.h"
 #include "Handlers/getlistusershandler.h"
-
+#include "Handlers/timedecoratorhandler.h"
+#include "Handlers/userstatushandler.h"
 class ParserServerEvent : public IParserRequest
 {
 public:
@@ -13,8 +14,7 @@ public:
     virtual ~ParserServerEvent();
 private:
     ServerEvent event;
-    chat::ChatRequest userConnected();
-    chat::ChatRequest userDisconnected();
+    bool isUserStatus(ServerEvent::EventType eventType)const;
     // IParserRequest interface
 public:
     ClientCommandPtr response();
