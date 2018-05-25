@@ -28,9 +28,21 @@ chat::ChatRequest &chat::ChatRequest::addArray(const QString &key, const QString
     return *this;
 }
 
+chat::ChatRequest &chat::ChatRequest::addArray(const QString &key, const QJsonArray &arr)
+{
+    json.insert(key, arr);
+    return *this;
+}
+
 chat::ChatRequest &chat::ChatRequest::addChildObj(const QString &key, const ChatRequest &req)
 {
     json.insert(key, req.toJson());
+    return *this;
+}
+
+chat::ChatRequest &chat::ChatRequest::addChildObj(const QString &key, const QJsonObject &obj)
+{
+    json.insert(key, obj);
     return *this;
 }
 

@@ -8,8 +8,12 @@ namespace chat {
 class ComSendMessage : public ChatCommand
 {
 public:
-    ComSendMessage();
-
+    ComSendMessage(const QString &message);
+    ComSendMessage(const QString &message, const QString &userId);
+    ComSendMessage(const QString &message, const QStringList &usersId);
+private:
+    QString message;
+    QStringList users;
     // ChatCommand interface
     void execute();
     ~ComSendMessage(){}

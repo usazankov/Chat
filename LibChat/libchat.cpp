@@ -30,7 +30,7 @@ void chat::LibChat::getUsers()
 
 void chat::LibChat::sendMessage(const QString &message)
 {
-    client->executeCommand(new ComSendMessage);
+    client->executeCommand(new ComSendMessage(message));
 }
 
 chat::IChatModel *chat::LibChat::model()

@@ -22,7 +22,9 @@ public:
     ChatRequest(const QJsonObject &obj);
     ChatRequest& addProperty(const QString &key, const QString &value);
     ChatRequest& addArray(const QString &key, const QStringList &array);
+    ChatRequest& addArray(const QString &key, const QJsonArray &arr);
     ChatRequest& addChildObj(const QString &key, const ChatRequest &req);
+    ChatRequest& addChildObj(const QString &key, const QJsonObject &obj);
 
     ChatRequest& clear();
     QJsonObject toJson()const;
