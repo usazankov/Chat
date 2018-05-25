@@ -30,6 +30,7 @@ private:
     Q_DECLARE_PRIVATE(Client)
     QTcpSocket *socket;
     qint32 m_msgSize;
+    void execute(ClientCommandPtr com);
     bool isAuthenticated(const ClientCommand &com = ClientCommand());
     void writeToSocket(const QByteArray &req);
     bool filterEvent(const ServerEvent &event);

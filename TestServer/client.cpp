@@ -20,6 +20,25 @@ Client::~Client()
     delete d_ptr;
 }
 
+void Client::execute(ClientCommandPtr com)
+{
+    if(com.isNull())
+        return;
+    if(!isAuthenticated(*com)){
+        if(!com->child.isNull())
+            execute(com->child);
+        return;
+    }
+    if(com->type == server_consts::SendToThisClient){
+        writeToSocket(com->data.toRequest());
+    }else if(com->type == server_consts::SendToAllClient ||
+             com->type == server_consts::SendToListClient){
+        d_ptr->server->executeCommand(*com);
+    }
+    if(!com->child.isNull())
+        execute(com->child);
+}
+
 bool Client::isAuthenticated(const ClientCommand &com)
 {
     if(com.type == server_consts::AuthenticationClient){
@@ -117,14 +136,6 @@ void Client::onResultReady()
         return;
     if(!watcher->result())
         return;
-    ClientCommandPtr com = watcher->result();
+    execute(watcher->result());
     watcher->deleteLater();
-    if(!isAuthenticated(*com)){
-        return;
-    }
-    if(com->type == server_consts::SendToThisClient){
-        writeToSocket(com->data.toRequest());
-        return;
-    }
-    d_ptr->server->executeCommand(*com);
 }

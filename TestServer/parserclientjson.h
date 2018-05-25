@@ -4,6 +4,7 @@
 #include <QObject>
 #include "Handlers/authhandler.h"
 #include "Handlers/timedecoratorhandler.h"
+#include "Handlers/sendmessagehandler.h"
 #include "handlerrequest.h"
 #include "iparserrequest.h"
 

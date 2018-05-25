@@ -18,6 +18,7 @@ enum Result{
     ErrorParseRequest,
     MissingUserID,
     MissingToken,
+    EmptyMessage,
     SUCCESS
 };
 }

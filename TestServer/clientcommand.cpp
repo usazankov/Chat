@@ -6,6 +6,7 @@ ClientCommand::ClientCommand()
     type = server_consts::Undefined;
     data = chat::ChatRequest();
     params = QVariantMap();
+    child.reset();
 }
 
 ClientCommand::~ClientCommand()
@@ -19,6 +20,7 @@ ClientCommand::ClientCommand(const ClientCommand &com)
     type = com.type;
     data = com.data;
     params = com.params;
+    child = com.child;
 }
 
 ClientCommand &ClientCommand::operator=(const ClientCommand &com)
@@ -27,5 +29,6 @@ ClientCommand &ClientCommand::operator=(const ClientCommand &com)
     type = com.type;
     data = com.data;
     params = com.params;
+    child = com.child;
     return *this;
 }

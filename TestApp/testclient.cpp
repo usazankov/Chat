@@ -12,7 +12,7 @@ TestClient::TestClient(QObject *parent) : QObject(parent)
     data.setUserName(name + QString::number(x));
     chat::LibChat::instance().connectToChat(adr, 1024);
     chat::LibChat::instance().authorization(data);
-    //chat::LibChat::instance().getUsers();
+    chat::LibChat::instance().sendMessage("Hello Govno!");
 }
 
 void TestClient::print(const QString &str)

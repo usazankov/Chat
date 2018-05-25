@@ -33,10 +33,11 @@ SOURCES += main.cpp \
     parserclientjson.cpp \
     parserserverevent.cpp \
     Handlers/getlistusershandler.cpp \
-    Handlers/sendmessagehandler.cpp \
     Handlers/decoratorhandler.cpp \
     Handlers/timedecoratorhandler.cpp \
-    Handlers/userstatushandler.cpp
+    Handlers/userstatushandler.cpp \
+    Handlers/senddatahandler.cpp \
+    Handlers/sendmessagehandler.cpp
 
 HEADERS += \
     server.h \
@@ -54,7 +55,8 @@ HEADERS += \
     parserclientjson.h \
     parserserverevent.h \
     Handlers/getlistusershandler.h \
-    Handlers/sendmessagehandler.h \
     Handlers/decoratorhandler.h \
     Handlers/timedecoratorhandler.h \
-    Handlers/userstatushandler.h
+    Handlers/userstatushandler.h \
+    Handlers/senddatahandler.h \
+    Handlers/sendmessagehandler.h

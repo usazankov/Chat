@@ -27,6 +27,8 @@ ClientCommandPtr ParserClientJson::response()
     QString type = server_consts::getTypeCommand(doc.object());
     if(type == chat::C_AUTH_REQ){
         handler = new AuthHandler(&doc);
+    }else if(type == chat::C_SEND_MESSAGE){
+        handler = new SendMessageHandler(&doc);
     }
     handler = new TimeDecoratorHandler(handler);
     return handler->data();
