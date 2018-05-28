@@ -8,6 +8,7 @@ class GetListUsersHandler : public HandlerRequest
 {
 public:
     GetListUsersHandler(const QString &sourceUser = 0);
+    GetListUsersHandler(QJsonDocument *doc);
     virtual ~GetListUsersHandler();
 private:
     QString idUser;

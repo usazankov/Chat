@@ -59,15 +59,18 @@ namespace chat {
     const static TYPE_STR CODE_RESP = "Code_resp"; //Код ответа сервера
 
     //Коды ответа сервера
-    const static TYPE_STR AUTH_SUCCESS = "auth_success"; //Успешная авторизация
+    const static TYPE_STR USER_IS_NOT_REG = "user_is_not_reg"; //Пользователь не зарегистрирован
     const static TYPE_STR C_SUCCESS = "c_success"; //Успешное выполнение запроса
     const static TYPE_STR C_ERROR = "c_error"; //Ошибка выполнения запроса
 
     //Объект ошибка
     const static TYPE_STR ERROR_OBJ = "Error_obj"; //Объект ошибка
         const static TYPE_STR ERROR_ID = "Error_id"; //Идентификатор ошибки
-
     // Описание идентификаторов ошибок (список возможных полей для поля ERROR_ID)
+    const static TYPE_STR ERROR_UNDEFINED = "Error_undefined"; //Неизвестная ошибка
+    const static TYPE_STR ERROR_PARSE = "Error_parse"; //ошибка при парсинге (отправлен не JSon-объект)
+    const static TYPE_STR ERROR_MISSING_USER_ID = "Error_missing_user_id"; //В запросе нет UserId
+    const static TYPE_STR ERROR_EMPTY_MESSAGE = "Error_empty_message"; //В запросе пустое сообщение
     const static TYPE_STR ERROR_NAME_INVALID = "Error_name_invalid"; //Недопустимое имя пользователя
     const static TYPE_STR ERROR_NAME_IS_USE = "Error_name_is_use"; //Имя пользователя уже используется
     //итд

@@ -18,5 +18,8 @@ namespace Worker {
 
     //Обработать событие от сервера
     ClientCommandPtr executeServerEvent(const ServerEvent &event);
+
+    //Создать ответ клиенту на то, что он не зарегистрирован
+    chat::ChatRequest createRespToNotAuth(const QString userId = QString());
 }
 #endif // WORKER_H

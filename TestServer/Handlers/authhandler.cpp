@@ -41,7 +41,7 @@ ClientCommandPtr AuthHandler::data() const
         qDebug() << "data is valid";
         req.addChildObj(chat::COMMAND_OBJ, chat::ChatRequest(chat::COMMAND_ID, chat::C_AUTH_REQ));
         req.addProperty(chat::USER_ID, userID);
-        req.addProperty(chat::CODE_RESP, chat::AUTH_SUCCESS);
+        req.addProperty(chat::CODE_RESP, chat::C_SUCCESS);
         com->params[chat::USER_ID] = QVariant(userID);
         com->data = req;
     }else{

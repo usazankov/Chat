@@ -5,6 +5,9 @@
 #include "Handlers/authhandler.h"
 #include "Handlers/timedecoratorhandler.h"
 #include "Handlers/sendmessagehandler.h"
+#include "Handlers/getlistusershandler.h"
+#include "Handlers/errordecoratorhandler.h"
+#include "Handlers/commanddecoratorhandler.h"
 #include "handlerrequest.h"
 #include "iparserrequest.h"
 

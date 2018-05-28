@@ -37,7 +37,9 @@ SOURCES += main.cpp \
     Handlers/timedecoratorhandler.cpp \
     Handlers/userstatushandler.cpp \
     Handlers/senddatahandler.cpp \
-    Handlers/sendmessagehandler.cpp
+    Handlers/sendmessagehandler.cpp \
+    Handlers/errordecoratorhandler.cpp \
+    Handlers/commanddecoratorhandler.cpp
 
 HEADERS += \
     server.h \
@@ -59,4 +61,6 @@ HEADERS += \
     Handlers/timedecoratorhandler.h \
     Handlers/userstatushandler.h \
     Handlers/senddatahandler.h \
-    Handlers/sendmessagehandler.h
+    Handlers/sendmessagehandler.h \
+    Handlers/errordecoratorhandler.h \
+    Handlers/commanddecoratorhandler.h

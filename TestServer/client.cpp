@@ -27,6 +27,7 @@ void Client::execute(ClientCommandPtr com)
     if(!isAuthenticated(*com)){
         if(!com->child.isNull())
             execute(com->child);
+        writeToSocket(Worker::createRespToNotAuth().toRequest());
         return;
     }
     if(com->type == server_consts::SendToThisClient){

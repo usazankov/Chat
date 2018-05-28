@@ -5,6 +5,14 @@ GetListUsersHandler::GetListUsersHandler(const QString &sourceUser)
     idUser = sourceUser;
 }
 
+GetListUsersHandler::GetListUsersHandler(QJsonDocument *doc)
+{
+    QJsonObject obj = doc->object();
+    if(obj.contains(chat::USER_ID)){
+        idUser = obj.value(chat::USER_ID).toString();
+    }
+}
+
 GetListUsersHandler::~GetListUsersHandler()
 {
 
