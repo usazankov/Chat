@@ -14,7 +14,7 @@
 
 namespace chat {
 class ChatCommand;
-
+class ChatCommandManager;
 class LIBCHATSHARED_EXPORT ChatClient : public QObject
 {
     Q_OBJECT
@@ -56,6 +56,7 @@ private:
 public slots:
     void updateChat(const QJsonObject &obj);
     void onStateChanged(IChatNetworkManager::NetworkState state);
+    void onAuthStateChanged(IChatModel::AuthState authState);
 };
 
 class ChatModelUpdater

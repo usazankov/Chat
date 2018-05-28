@@ -65,10 +65,17 @@ void chat::ChatTCPManager::onSocketReadyRead()
             std::cout << "\nReceived " << m_msgSize <<" Byte:\n";
             std::cout << arr.toStdString() << "\n";
             m_msgSize = -1;
-
+            QJsonParseError error;
+            QJsonDocument doc = QJsonDocument::fromJson(arr, &error);
+            if(!doc.isObject()){
+                qDebug()<<"error:"<< error.errorString();
+            }else{
+                emit dataReceived(doc.object());
+            }
         }
     }
-    //emit dataReceived(QJsonDocument::fromBinaryData(array).object());
+
+
 }
 
 void chat::ChatTCPManager::onSocketError(QAbstractSocket::SocketError err)

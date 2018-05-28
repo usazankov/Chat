@@ -2,7 +2,8 @@
 #define CHATCOMMANDMANAGER_H
 
 #include <QObject>
-#include <commands/chatcommand.h>
+#include "commands/chatcommand.h"
+#include "commands/comauthuser.h"
 #include <QTimer>
 #include <QQueue>
 #include <deque>
@@ -18,7 +19,11 @@ public:
     void stop();
     void setInterval(int interval);
     void executePostpone(ChatCommand *com);
+    bool isAuthed() const;
+    void setIsAuthed(bool isAuthed);
+
 private:
+    bool m_isAuthed;
     std::deque<ChatCommand*> q_coms;
     QTimer *timer;
 signals:

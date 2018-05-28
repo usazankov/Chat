@@ -9,8 +9,8 @@ namespace chat {
 class IChatModel : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(chat::IChatNetworkManager::NetworkState state READ state WRITE setState NOTIFY stateChanged)
-    Q_PROPERTY(chat::IChatModel::AuthState authState READ authState WRITE setAuthState NOTIFY authStateChanged)
+    Q_PROPERTY(IChatNetworkManager::NetworkState state READ state WRITE setState NOTIFY stateChanged)
+    Q_PROPERTY(IChatModel::AuthState authState READ authState WRITE setAuthState NOTIFY authStateChanged)
 public:
     explicit IChatModel(QObject *parent = nullptr);
 
@@ -29,23 +29,23 @@ public:
     virtual QAbstractListModel* messagesListModel() = 0;
 
     //Получить текущее состояние сети
-    chat::IChatNetworkManager::NetworkState state() const;
+    IChatNetworkManager::NetworkState state() const;
 
     //Получить текущее состояние о регистрации пользователя
-    chat::IChatModel::AuthState authState() const;
+    IChatModel::AuthState authState() const;
 
 private:
-    chat::IChatNetworkManager::NetworkState m_state;
+    IChatNetworkManager::NetworkState m_state;
     bool m_isAuth;
-    chat::IChatModel::AuthState m_authState;
+    IChatModel::AuthState m_authState;
 
 signals:
-    void stateChanged(chat::IChatNetworkManager::NetworkState state);
-    void authStateChanged(chat::IChatModel::AuthState authState);
+    void stateChanged(IChatNetworkManager::NetworkState state);
+    void authStateChanged(IChatModel::AuthState authState);
 
 public slots:
-    void setState(chat::IChatNetworkManager::NetworkState state);
-    void setAuthState(chat::IChatModel::AuthState authState);
+    void setState(IChatNetworkManager::NetworkState state);
+    void setAuthState(IChatModel::AuthState authState);
 
 
 }; 

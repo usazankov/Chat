@@ -2,7 +2,7 @@
 
 chat::IChatModel::IChatModel(QObject *parent) : QObject(parent)
 {
-    m_state = chat::IChatNetworkManager::Offline;
+    m_state = IChatNetworkManager::Offline;
 }
 
 chat::IChatNetworkManager::NetworkState chat::IChatModel::state() const
@@ -15,7 +15,7 @@ chat::IChatModel::AuthState chat::IChatModel::authState() const
     return m_authState;
 }
 
-void chat::IChatModel::setState(chat::IChatNetworkManager::NetworkState state)
+void chat::IChatModel::setState(IChatNetworkManager::NetworkState state)
 {
     if (m_state == state)
         return;
@@ -24,7 +24,7 @@ void chat::IChatModel::setState(chat::IChatNetworkManager::NetworkState state)
     emit stateChanged(m_state);
 }
 
-void chat::IChatModel::setAuthState(chat::IChatModel::AuthState authState)
+void chat::IChatModel::setAuthState(IChatModel::AuthState authState)
 {
     if (m_authState == authState)
         return;

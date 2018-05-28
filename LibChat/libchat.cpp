@@ -15,6 +15,7 @@ void chat::LibChat::connectToChat(const QHostAddress &address, quint16 port)
 
 void chat::LibChat::authorization(const chat::PersonalData &data)
 {
+    client->chatClientParameters()->setPersonalData(data);
     client->executeCommand(new ComAuthUser(data));
 }
 
