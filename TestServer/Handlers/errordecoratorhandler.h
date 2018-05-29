@@ -11,6 +11,8 @@ public:
     // HandlerRequest interface
 public:
     ClientCommandPtr data() const;
+private:
+    void process(ClientCommandPtr com) const;
 };
 
 #endif // ERRORDECORATORHANDLER_H

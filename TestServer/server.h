@@ -24,7 +24,7 @@ public:
     void removeClient(const QString &idUser);
 
     //Выполнить команду
-    void executeCommand(const ClientCommand &com);
+    bool executeCommand(const QString &idUser, const ClientCommand &com);
 
 private slots:
     void onNewConnection();

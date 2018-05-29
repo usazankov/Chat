@@ -49,7 +49,15 @@ void Server::removeClient(const QString &idUser)
     emit serverEvent(event);
 }
 
-void Server::executeCommand(const ClientCommand &com)
+bool Server::executeCommand(const QString &idUser, const ClientCommand &com)
 {
-
+    if(com.type == server_consts::SendToAllClient){
+        QByteArray arr = com.data.toRequest();
+        for(auto iter = m_sockets.begin(); iter != m_sockets.end(); iter++){
+            if(iter.key() != idUser){
+                iter.value()->write(arr);
+            }
+        }
+    }
+    return true; //Пока всегда возвращаем успех
 }

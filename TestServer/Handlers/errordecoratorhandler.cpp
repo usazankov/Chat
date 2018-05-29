@@ -5,9 +5,8 @@ ErrorDecoratorHandler::ErrorDecoratorHandler(HandlerRequest *handler) : Decorato
 
 }
 
-ClientCommandPtr ErrorDecoratorHandler::data() const
+void ErrorDecoratorHandler::process(ClientCommandPtr com) const
 {
-    ClientCommandPtr com = DecoratorHandler::data();
     if(com->result != server_consts::SUCCESS){
         QString errStr;
         switch (com->result) {
@@ -35,5 +34,17 @@ ClientCommandPtr ErrorDecoratorHandler::data() const
     }else{
         com->data.addProperty(chat::CODE_RESP, chat::C_SUCCESS);
     }
-    return com;
+}
+
+ClientCommandPtr ErrorDecoratorHandler::data() const
+{
+    ClientCommandPtr root = DecoratorHandler::data();
+    ClientCommandPtr com = root;
+    process(com);
+    if(!com->com_onError.isNull())
+        process(com->com_onError);
+    if(!com->com_onSuccess.isNull())
+        process(com->com_onSuccess);
+
+    return root;
 }

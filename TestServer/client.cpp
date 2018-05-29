@@ -25,8 +25,6 @@ void Client::execute(ClientCommandPtr com)
     if(com.isNull())
         return;
     if(!isAuthenticated(*com)){
-        if(!com->child.isNull())
-            execute(com->child);
         writeToSocket(Worker::createRespToNotAuth().toRequest());
         return;
     }
@@ -34,10 +32,26 @@ void Client::execute(ClientCommandPtr com)
         writeToSocket(com->data.toRequest());
     }else if(com->type == server_consts::SendToAllClient ||
              com->type == server_consts::SendToListClient){
-        d_ptr->server->executeCommand(*com);
+        if(d_ptr->server->executeCommand(d_ptr->idUser, *com)){
+            //В случае успеха выполнения команду успеха
+            if(!com->com_onSuccess.isNull()){
+                if(com->com_onSuccess->type == server_consts::SendToThisClient){
+                    writeToSocket(com->com_onSuccess->data.toRequest());
+                }else{
+                    d_ptr->server->executeCommand(d_ptr->idUser, *com->com_onSuccess);
+                }
+            }
+        }else{
+            //В случае ошибки - команду ошибки
+            if(!com->com_onError.isNull()){
+                if(com->com_onError->type == server_consts::SendToThisClient){
+                    writeToSocket(com->com_onError->data.toRequest());
+                }else{
+                    d_ptr->server->executeCommand(d_ptr->idUser, *com->com_onError);
+                }
+            }
+        }
     }
-    if(!com->child.isNull())
-        execute(com->child);
 }
 
 bool Client::isAuthenticated(const ClientCommand &com)

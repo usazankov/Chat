@@ -39,21 +39,27 @@ ClientCommandPtr SendMessageHandler::data() const
         com->result = server_consts::EmptyMessage;
         return com;
     }else{
-        //Клиенту, который создал запрос, отсылаем, что сообщение доставлено
-        com->type = server_consts::SendToThisClient;
-        com->result = server_consts::SUCCESS;
-
 
         //Остальных клиентов оповещаем о новом сообщении
-        ClientCommandPtr com_child(new ClientCommand);
-        com_child->type = server_consts::SendToAllClient;
-        chat::ChatRequest req;//Здесь должен быть Event
-        chat::ChatRequest mes(chat::MESSAGE_BODY, message);
-        mes.addProperty(chat::USER_ID, userId);
-        req.addChildObj(chat::MESSAGE_OBJ, mes);
-        com_child->data = req;
+        chat::ChatRequest req;
+        req.addChildObj(chat::EVENT_OBJ, chat::ChatRequest(chat::EVENT_ID, chat::E_MESSAGE));
+        req.addChildObj(chat::USER_OBJ, chat::ChatRequest(chat::USER_ID, userId));
+        req.addChildObj(chat::MESSAGE_OBJ, chat::ChatRequest(chat::MESSAGE_BODY, message));
+        com->data = req;
+        com->type = server_consts::SendToAllClient;
+        com->result = server_consts::SUCCESS;
 
-        com->child = com_child;
+        //Клиенту, который создал запрос, отсылаем, что сообщение доставлено
+        ClientCommandPtr comSuccess(new ClientCommand);
+        comSuccess->type = server_consts::SendToThisClient;
+        comSuccess->result = server_consts::SUCCESS;
+        com->com_onSuccess = comSuccess;
+
+        //В случае ошибки
+        ClientCommandPtr comError(new ClientCommand);
+        comError->type = server_consts::SendToThisClient;
+        comError->result = server_consts::UndefinedError;
+        com->com_onError = comError;
     }
     return com;
 }

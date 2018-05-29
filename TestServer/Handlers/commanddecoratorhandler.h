@@ -9,6 +9,7 @@ public:
     CommandDecoratorHandler(const QString &commandID, HandlerRequest *req);
 private:
     QString commandID;
+    void process(ClientCommandPtr com) const;
     // HandlerRequest interface
 public:
     ClientCommandPtr data() const;

@@ -55,6 +55,7 @@ namespace chat {
     // Описание идентификаторов команд (список возможных полей для поля Event_id)
     const static TYPE_STR E_CONNECT_USER = "e_connect_user"; //В этом типе события находится объект USER_OBJ
     const static TYPE_STR E_DISCONNECT_USER = "e_disconnect_user"; //В этом типе события находится объект USER_OBJ
+    const static TYPE_STR E_MESSAGE = "e_message"; //Сообщение
 
     const static TYPE_STR CODE_RESP = "Code_resp"; //Код ответа сервера
 
