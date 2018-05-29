@@ -26,6 +26,7 @@ private:
     bool m_isAuthed;
     std::deque<ChatCommand*> q_coms;
     QTimer *timer;
+    void execComAuth();
 signals:
 
 public slots:

@@ -10,8 +10,8 @@ TestClient::TestClient(QObject *parent) : QObject(parent)
     int x = rand() % 1000000;
     QString name("User_");
     data.setUserName(name + QString::number(x));
+    chat::LibChat::instance().setPersonalData(data);
     chat::LibChat::instance().connectToChat(adr, 1024);
-    chat::LibChat::instance().authorization(data);
     chat::LibChat::instance().sendMessage("Hello Govno!");
 }
 

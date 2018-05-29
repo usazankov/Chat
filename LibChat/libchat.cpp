@@ -10,13 +10,14 @@ chat::LibChat::LibChat()
 
 void chat::LibChat::connectToChat(const QHostAddress &address, quint16 port)
 {
+    client->chatClientParameters()->setAdress(address);
+    client->chatClientParameters()->setPort(port);
     client->getNetworkManager()->connectToHost(address, port);
 }
 
-void chat::LibChat::authorization(const chat::PersonalData &data)
+void chat::LibChat::setPersonalData(const chat::PersonalData &data)
 {
     client->chatClientParameters()->setPersonalData(data);
-    client->executeCommand(new ComAuthUser(data));
 }
 
 void chat::LibChat::disconnectFromChat()

@@ -38,12 +38,28 @@ void chat::ChatCommandManager::setIsAuthed(bool isAuthed)
     m_isAuthed = isAuthed;
 }
 
+void chat::ChatCommandManager::execComAuth()
+{
+    for(auto iter = q_coms.begin(); iter != q_coms.end(); iter++){
+        if(typeid(**iter) == typeid(ComAuthUser)){
+            (*iter)->execute();
+            q_coms.erase(iter);
+            delete *iter;
+            return;
+        }
+    }
+}
+
 void chat::ChatCommandManager::onTimeOut()
 {
     if(q_coms.empty())
         return;
+    if( !m_isAuthed){
+        execComAuth();
+        return;
+    }
     ChatCommand *temp = q_coms.front();
-    if( m_isAuthed || typeid(*temp) == typeid(ComAuthUser)){
+    if( m_isAuthed){
         if(temp){
             temp->execute();
             delete temp;

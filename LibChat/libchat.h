@@ -28,7 +28,7 @@ public:
 
     //Controller
     Q_INVOKABLE void connectToChat(const QHostAddress &address, quint16 port);
-    Q_INVOKABLE void authorization(const PersonalData &data);
+    Q_INVOKABLE void setPersonalData(const PersonalData &data);
     Q_INVOKABLE void disconnectFromChat();
     Q_INVOKABLE void getUsers();
     Q_INVOKABLE void sendMessage(const QString &message);

@@ -49,14 +49,18 @@ private:
     IChatNetworkManager::NetworkState m_currentState;
     ChatCommandManager *com_manager;
     ChatClientParameters *params;
+    QScopedPointer<QTimer> timerConnect;
 signals:
     void chatClientParametersChanged();
 private:
     void onPersonalDataChanged(PersonalData data);
+private slots:
+    void periodicConnect();
 public slots:
     void updateChat(const QJsonObject &obj);
     void onStateChanged(IChatNetworkManager::NetworkState state);
     void onAuthStateChanged(IChatModel::AuthState authState);
+
 };
 
 class ChatModelUpdater
