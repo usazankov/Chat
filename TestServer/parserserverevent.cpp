@@ -26,7 +26,9 @@ ClientCommandPtr ParserServerEvent::response()
     }else if(event.type == ServerEvent::GetListUsers){
         handler = new GetListUsersHandler(event.data[chat::USER_ID].toString());
     }
-
+    handler = new EventDecoratorHandler(event.type, handler);
     handler = new TimeDecoratorHandler(handler);
+    //Добавляем результат выполнения
+    handler = new ErrorDecoratorHandler(handler);
     return handler->data();
 }

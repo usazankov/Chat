@@ -39,7 +39,8 @@ SOURCES += main.cpp \
     Handlers/senddatahandler.cpp \
     Handlers/sendmessagehandler.cpp \
     Handlers/errordecoratorhandler.cpp \
-    Handlers/commanddecoratorhandler.cpp
+    Handlers/commanddecoratorhandler.cpp \
+    Handlers/eventdecoratorhandler.cpp
 
 HEADERS += \
     server.h \
@@ -63,4 +64,5 @@ HEADERS += \
     Handlers/senddatahandler.h \
     Handlers/sendmessagehandler.h \
     Handlers/errordecoratorhandler.h \
-    Handlers/commanddecoratorhandler.h
+    Handlers/commanddecoratorhandler.h \
+    Handlers/eventdecoratorhandler.h

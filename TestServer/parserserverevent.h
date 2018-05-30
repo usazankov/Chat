@@ -8,6 +8,7 @@
 #include "Handlers/timedecoratorhandler.h"
 #include "Handlers/userstatushandler.h"
 #include "Handlers/errordecoratorhandler.h"
+#include "Handlers/eventdecoratorhandler.h"
 
 class ParserServerEvent : public IParserRequest
 {
