@@ -3,7 +3,7 @@
 chat::MessageListModel::MessageListModel(QObject *parent)
     : QAbstractListModel(parent)
 {
-
+    initRoleNames();
 }
 
 int chat::MessageListModel::rowCount(const QModelIndex &parent) const

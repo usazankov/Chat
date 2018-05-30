@@ -27,4 +27,5 @@ signals:
 public slots:
 };
 }
+Q_DECLARE_METATYPE(chat::Message)
 #endif // MESSAGE_H

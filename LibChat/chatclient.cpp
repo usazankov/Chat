@@ -112,17 +112,48 @@ void chat::ChatClient::onAuthStateChanged(IChatModel::AuthState authState)
 chat::ChatModelUpdater::ChatModelUpdater(chat::ChatClient *client)
 {
     this->client = client;
+    parser.reset(new ChatRespParser(client));
 }
 
 void chat::ChatModelUpdater::updateData(const QJsonObject &obj)
 {
+    QJsonObject object = obj;
     if(obj.contains(chat::CODE_RESP)){
         if(obj.contains(chat::COMMAND_OBJ) && obj.value(chat::COMMAND_OBJ).isObject()){
             QString comId = obj.value(chat::COMMAND_OBJ).toObject().value(chat::COMMAND_ID).toString();
             QString res = obj.value(chat::CODE_RESP).toString();
-            if(comId == chat::C_AUTH_REQ && res == chat::C_SUCCESS)
+            if(comId == chat::C_AUTH_REQ && res == chat::C_SUCCESS){
                 client->getModel()->setAuthState(IChatModel::AuthSUCCESS);
+                return;
+            }
+        }
+    }
+    parser->setJsonObject(&object);
+    parser->parse();
+    if(parser->getResultResp() == ChatRespParser::SUCCESS){
+        switch (parser->getTypeResp()) {
+        case ChatRespParser::AuthResp:
+
+            break;
+        case ChatRespParser::ConnectUser:
+
+            break;
+        case ChatRespParser::DisconnectUser:
+            break;
+        case ChatRespParser::Message:
+            break;
+        case ChatRespParser::UsersList:{
+            UsersListPtr users = unpack<UsersListPtr>(parser->data());
+            if(!users.isNull()){
+                for(int i = 0; i < users->count(); i++){
+                    qDebug() << users->at(i).userId;
+                }
+            }
+            break;
         }
 
+        default:
+            break;
+        }
     }
 }

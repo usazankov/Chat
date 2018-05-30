@@ -9,6 +9,8 @@
 #include "commands/comauthuser.h"
 #include "chatcommandmanager.h"
 #include "chatclientparameters.h"
+#include "chatrespparser.h"
+#include "models/user.h"
 #include <QQueue>
 #include <QTimer>
 
@@ -70,7 +72,7 @@ public:
     void updateData(const QJsonObject &obj);
 private:
     ChatClient *client;
-
+    QScopedPointer<ChatRespParser> parser;
 };
 }
 #endif // CHATCLIENT_H
