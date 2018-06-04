@@ -2,7 +2,7 @@
 
 chat::ChatRespParser::ChatRespParser(QObject *parent) : QObject(parent)
 {
-    handler = nullptr;
+    handler.reset();
 }
 
 chat::ChatRespParser::ChatRespParser(QJsonObject *doc, QObject *parent) : QObject(parent)
@@ -10,7 +10,12 @@ chat::ChatRespParser::ChatRespParser(QJsonObject *doc, QObject *parent) : QObjec
     this->doc = doc;
     typeResp = ChatRespParser::Undefined;
     res = ChatRespParser::UndefinedError;
-    handler = nullptr;
+    handler.reset();
+}
+
+chat::ChatRespParser::~ChatRespParser()
+{
+
 }
 
 void chat::ChatRespParser::setJsonObject(QJsonObject *obj)
@@ -24,12 +29,18 @@ void chat::ChatRespParser::parse()
     typeResp = getTypeResp();
     switch (typeResp) {
     case ChatRespParser::UsersList:
-        handler = new UsersListHandler(doc);
+        handler.reset(new UsersListHandler(doc));
+        break;
+    case ChatRespParser::ConnectUser:
+        handler.reset(new UserHandler(doc));
+        break;
+    case ChatRespParser::DisconnectUser:
+        handler.reset(new UserHandler(doc));
         break;
     default:
         break;
     }
-    if(handler){
+    if(!handler.isNull()){
         m_data = handler->data();
     }
 }

@@ -10,6 +10,9 @@ class User
 {
 public:
     explicit User();
+    User(const User &user);
+    User& operator =(const User &user);
+    bool operator ==(const User &right);
 QString userId;
 
 };

@@ -9,6 +9,9 @@
 #include "../Common/common_consts.h"
 #include "handlers/chathandler.h"
 #include "handlers/userslisthandler.h"
+#include "handlers/userhandler.h"
+#include <QScopedPointer>
+
 namespace chat {
 
 class ChatRespParser : public QObject
@@ -17,7 +20,7 @@ class ChatRespParser : public QObject
 public:
     explicit ChatRespParser(QObject *parent = nullptr);
     explicit ChatRespParser(QJsonObject *doc, QObject *parent = nullptr);
-
+    virtual ~ChatRespParser();
     enum TypeResp{
         Undefined,
         AuthResp,
@@ -68,7 +71,7 @@ private:
     QString getTypeCommand(const QJsonObject &obj)const;
     QString getTypeEvent(const QJsonObject &obj)const;
     QJsonObject *doc;
-    ChatHandler *handler;
+    QScopedPointer<ChatHandler> handler;
     TypeResp typeResp;
     QVariant m_data;
     Result res;

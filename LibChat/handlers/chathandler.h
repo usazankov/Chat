@@ -15,6 +15,7 @@ protected:
 public:
     ChatHandler();
     ChatHandler(QJsonObject *obj);
+    virtual ~ChatHandler();
     virtual QVariant data() = 0;
 };
 

@@ -51,7 +51,8 @@ SOURCES += \
     commands/comauthuser.cpp \
     handlers/chathandler.cpp \
     handlers/userslisthandler.cpp \
-    models/userlistmodel.cpp
+    models/userlistmodel.cpp \
+    handlers/userhandler.cpp
 
 HEADERS += \
         libchat.h \
@@ -76,7 +77,8 @@ HEADERS += \
     commands/comauthuser.h \
     handlers/chathandler.h \
     handlers/userslisthandler.h \
-    models/userlistmodel.h
+    models/userlistmodel.h \
+    handlers/userhandler.h
 
 unix {
     target.path = /usr/lib

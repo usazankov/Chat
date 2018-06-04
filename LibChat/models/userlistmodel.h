@@ -2,6 +2,7 @@
 #define USERLISTMODEL_H
 
 #include <QAbstractListModel>
+#include "user.h"
 namespace chat {
 class UserListModel : public QAbstractListModel
 {
@@ -16,14 +17,19 @@ public:
 
     QHash<int, QByteArray> roleNames() const override;
 
+    void addUser(const User &user);
+
+    void removeUser(const User &user);
+    void removeUser(const QString &userId);
+
+    void setUsersList(const QList<User> &list);
+
 private:
     enum Roles{
-        FromRole = Qt::UserRole + 1,
-        BodyRole,
-        DateRole,
-        TimeRole
+        UserIDRole = Qt::UserRole + 1,
     };
     QHash<int, QByteArray> roles;
+    QList<User> users;
     void initRoleNames();
 };
 }

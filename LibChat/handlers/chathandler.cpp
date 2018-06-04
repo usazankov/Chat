@@ -10,3 +10,8 @@ chat::ChatHandler::ChatHandler(QJsonObject *obj)
     this->obj = obj;
 }
 
+chat::ChatHandler::~ChatHandler()
+{
+
+}
+

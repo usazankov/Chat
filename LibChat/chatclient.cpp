@@ -135,19 +135,26 @@ void chat::ChatModelUpdater::updateData(const QJsonObject &obj)
         case ChatRespParser::AuthResp:
 
             break;
-        case ChatRespParser::ConnectUser:
-
+        case ChatRespParser::ConnectUser:{
+            User user = unpack<User>(parser->data());
+            if(!user.userId.isNull()){
+                client->getModel()->usersModel()->addUser(user);
+            }
+        }
             break;
-        case ChatRespParser::DisconnectUser:
+        case ChatRespParser::DisconnectUser:{
+            User user = unpack<User>(parser->data());
+            if(!user.userId.isNull()){
+                client->getModel()->usersModel()->removeUser(user);
+            }
+        }
             break;
         case ChatRespParser::Message:
             break;
         case ChatRespParser::UsersList:{
             UsersListPtr users = unpack<UsersListPtr>(parser->data());
             if(!users.isNull()){
-                for(int i = 0; i < users->count(); i++){
-                    qDebug() << users->at(i).userId;
-                }
+                client->getModel()->usersModel()->setUsersList(*users);
             }
             break;
         }

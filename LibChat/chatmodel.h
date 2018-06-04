@@ -4,6 +4,7 @@
 #include <QObject>
 #include "ichatmodel.h"
 #include "models/messagelistmodel.h"
+#include "models/userlistmodel.h"
 #include <QScopedPointer>
 
 namespace chat {
@@ -18,9 +19,11 @@ public:
     // IChatModel interface
     QAbstractListModel *usersListModel();
     QAbstractListModel *messagesListModel();
+
+    UserListModel *usersModel();
 private:
     QScopedPointer<MessageListModel> ms_ptr;
-
+    QScopedPointer<UserListModel> us_ptr;
 signals:
 
 public slots:
