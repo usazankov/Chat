@@ -23,6 +23,7 @@ public:
     void removeUser(const QString &userId);
 
     void setUsersList(const QList<User> &list);
+    void clearUsersList();
 
 private:
     enum Roles{

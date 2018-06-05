@@ -14,6 +14,7 @@ chat::ChatClient::ChatClient(chat::IChatNetworkManager *networkManager, chat::Ch
     timerConnect.reset(new QTimer);
     connect(timerConnect.data(),SIGNAL(timeout()),this,SLOT(periodicConnect()));
     timerConnect->setInterval(5000);
+    updater.reset(new ChatModelUpdater(this));
 }
 
 chat::ChatClient::~ChatClient()
@@ -74,15 +75,16 @@ void chat::ChatClient::periodicConnect()
 
 void chat::ChatClient::updateChat(const QJsonObject &obj)
 {
-    ChatModelUpdater updater(this);
-    updater.updateData(obj);
+    updater->updateData(obj);
 }
 
 void chat::ChatClient::onStateChanged(IChatNetworkManager::NetworkState state)
 {
     m_currentState = state;
-    if(model)
-        model->setState(state);
+    if(model){
+        updater->updateData(state);
+        //model->setState(state);
+    }
     if(state == IChatNetworkManager::Online){
         executeCommand(new ComAuthUser(params->personalData()));
         timerConnect->stop();
@@ -163,4 +165,17 @@ void chat::ChatModelUpdater::updateData(const QJsonObject &obj)
             break;
         }
     }
+}
+
+void chat::ChatModelUpdater::updateData(chat::IChatNetworkManager::NetworkState state)
+{
+    client->getModel()->setState(state);
+    switch (state) {
+    case IChatNetworkManager::Offline:
+        client->getModel()->usersModel()->clearUsersList();
+        break;
+    default:
+        break;
+    }
+
 }

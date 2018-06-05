@@ -70,6 +70,16 @@ void chat::UserListModel::setUsersList(const QList<chat::User> &list)
     endInsertRows();
 }
 
+void chat::UserListModel::clearUsersList()
+{
+    int end = 0;
+    if(users.count() > 0)
+        end = users.count();
+    beginRemoveRows(QModelIndex(), 0, end);
+    users.clear();
+    endRemoveRows();
+}
+
 void chat::UserListModel::initRoleNames()
 {
     roles[UserIDRole] = "userId";

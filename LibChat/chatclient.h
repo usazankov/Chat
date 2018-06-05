@@ -17,6 +17,7 @@
 namespace chat {
 class ChatCommand;
 class ChatCommandManager;
+class ChatModelUpdater;
 class LIBCHATSHARED_EXPORT ChatClient : public QObject
 {
     Q_OBJECT
@@ -51,6 +52,7 @@ private:
     IChatNetworkManager::NetworkState m_currentState;
     ChatCommandManager *com_manager;
     ChatClientParameters *params;
+    QScopedPointer<ChatModelUpdater> updater;
     QScopedPointer<QTimer> timerConnect;
 signals:
     void chatClientParametersChanged();
@@ -70,6 +72,7 @@ class ChatModelUpdater
 public:
     ChatModelUpdater(ChatClient *client);
     void updateData(const QJsonObject &obj);
+    void updateData(IChatNetworkManager::NetworkState state);
 private:
     ChatClient *client;
     QScopedPointer<ChatRespParser> parser;

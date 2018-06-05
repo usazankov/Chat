@@ -9,7 +9,7 @@ namespace chat {
 class IChatModel : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(IChatNetworkManager::NetworkState state READ state WRITE setState NOTIFY stateChanged)
+    Q_PROPERTY(IChatNetworkManager::NetworkState state READ state WRITE setState)
     Q_PROPERTY(IChatModel::AuthState authState READ authState WRITE setAuthState NOTIFY authStateChanged)
 public:
     explicit IChatModel(QObject *parent = nullptr);
@@ -40,9 +40,7 @@ private:
     IChatModel::AuthState m_authState;
 
 signals:
-    void stateChanged(IChatNetworkManager::NetworkState state);
     void authStateChanged(IChatModel::AuthState authState);
-
 public slots:
     void setState(IChatNetworkManager::NetworkState state);
     void setAuthState(IChatModel::AuthState authState);
