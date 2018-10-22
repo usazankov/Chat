@@ -39,6 +39,7 @@ namespace chat {
 
     // Описание идентификаторов команд (список возможных полей для поля Command_id)
     const static TYPE_STR C_AUTH_REQ = "c_auth_req"; //Запрос на авторизацию
+    const static TYPE_STR C_CHECK_CONNECT = "c_check_connect"; //Проверка соединения
     const static TYPE_STR C_GET_COUNT_ONLINE = "c_get_count_online"; //Получить количество пользователей онлайн
     const static TYPE_STR C_GET_ALL_USERS = "c_get_users"; //Получить список всех пользователей
     const static TYPE_STR C_GET_ONLINE_USERS = "c_get_online_users"; //Получить список пользователей в онлайне

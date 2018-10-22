@@ -3,7 +3,7 @@
 TestClient::TestClient(QObject *parent) : QObject(parent)
 {
     connect(chat::LibChat::instance().getChatClient()->getNetworkManager(),SIGNAL(error(chat::IChatNetworkManager::ErrorNetwork)),this,SLOT(printError(chat::IChatNetworkManager::ErrorNetwork)));
-    QHostAddress adr(QHostAddress::LocalHost);
+    QHostAddress adr("10.35.90.162");
     chat::PersonalData data;
     int seed = QTime::currentTime().msecsSinceStartOfDay();
     srand(seed);
@@ -11,7 +11,7 @@ TestClient::TestClient(QObject *parent) : QObject(parent)
     QString name("User_");
     data.setUserName(name + QString::number(x));
     chat::LibChat::instance().setPersonalData(data);
-    chat::LibChat::instance().connectToChat(adr, 1024);
+    chat::LibChat::instance().connectToChat(adr, 1977);
     chat::LibChat::instance().sendMessage("Hello Govno!");
 }
 

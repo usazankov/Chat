@@ -8,6 +8,7 @@
 #include "Handlers/getlistusershandler.h"
 #include "Handlers/errordecoratorhandler.h"
 #include "Handlers/commanddecoratorhandler.h"
+#include "Handlers/checkconnecthandler.h"
 #include "handlerrequest.h"
 #include "iparserrequest.h"
 

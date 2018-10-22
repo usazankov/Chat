@@ -32,6 +32,8 @@ ClientCommandPtr ParserClientJson::response()
         handler = new SendMessageHandler(&doc);
     }else if(type == chat::C_GET_ALL_USERS){
         handler = new GetListUsersHandler(&doc);
+    }else if(type == chat::C_CHECK_CONNECT){
+        handler = new CheckConnectHandler(&doc);
     }
     //Добавляем зеркально идентификатор команды
     handler = new CommandDecoratorHandler(type, handler);

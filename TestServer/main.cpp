@@ -5,7 +5,7 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
     Server serv;
-    QHostAddress adr(QHostAddress::LocalHost);
-    serv.startServer(adr, 1024);
+    QHostAddress adr(QHostAddress::Any);
+    serv.startServer(adr, 1979);
     return a.exec();
 }
