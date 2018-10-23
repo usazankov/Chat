@@ -56,6 +56,13 @@ void Client::execute(ClientCommandPtr com)
 
 bool Client::isAuthenticated(const ClientCommand &com)
 {
+
+#ifdef TEST
+    d_ptr->isAuth = true;
+    d_ptr->idUser = "Test_user";
+    d_ptr->server->addClient("Test_user", this);
+    return d_ptr->isAuth;
+#else
     if(com.type == server_consts::AuthenticationClient){
         if(com.result == server_consts::SUCCESS){
             QString userId = com.params[chat::USER_ID].toString();
@@ -71,6 +78,7 @@ bool Client::isAuthenticated(const ClientCommand &com)
         writeToSocket(com.data.toRequest());
     }
     return d_ptr->isAuth;
+#endif
 }
 
 void Client::writeToSocket(const QByteArray &req)
@@ -107,7 +115,7 @@ void Client::onServerEvent(const ServerEvent &event)
         return;
     QFutureWatcher<ClientCommandPtr> *watcher = new QFutureWatcher<ClientCommandPtr>;
     connect(watcher, SIGNAL(finished()), this, SLOT(onResultReady()));
-    watcher->setFuture(QtConcurrent::run(Worker::executeServerEvent, event));
+    watcher->setFuture(QtConcurrent::run(QThreadPool::globalInstance(), Worker::executeServerEvent, event));
 }
 
 void Client::onReadyRead()
