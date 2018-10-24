@@ -5,7 +5,10 @@ Client::Client(Server *server, QTcpSocket *sock) : QObject(server), socket(sock)
     d_ptr->q_ptr = this;
     d_ptr->server = server;
     d_ptr->isAuth = false;
-    connect(socket,SIGNAL(readyRead()),this,SLOT(onReadyRead()));
+    d_ptr->filter = new RequestFilter;
+    d_ptr->filter->setExceededTick(1000);
+    d_ptr->filter->setExceededLimitFailReq(5);
+    connect(socket,SIGNAL(readyRead()),this,SLOT(onReadyRead()), Qt::QueuedConnection);
     connect(socket,SIGNAL(disconnected()),this,SLOT(onDisconnected()));
     m_msgSize = -1;
 }
@@ -83,6 +86,8 @@ bool Client::isAuthenticated(const ClientCommand &com)
 
 void Client::writeToSocket(const QByteArray &req)
 {
+    std::cout << "Time: "<<QDateTime::currentDateTime().toString(Qt::SystemLocaleDate).toStdString() <<" Send response " << req.size() <<" Byte:\n";
+    std::cout << req.toStdString() << "\n";
     socket->write(req);
 }
 
@@ -121,23 +126,37 @@ void Client::onServerEvent(const ServerEvent &event)
 void Client::onReadyRead()
 {
     QDataStream stream(socket);
+    static bool isRunning = true;
+    if(!isRunning)return;
     while(true) {
         if (m_msgSize < 0) {
             if (socket->bytesAvailable() < sizeof(int))
                 return;
+            RequestFilter::CheckResult res = d_ptr->filter->check();
+            if(res == RequestFilter::SEND_FAIL){
+                writeToSocket(Worker::createRespToTimeout().toRequest());
+            }else if(res == RequestFilter::NEED_DISCONNECT){
+                socket->close();
+                isRunning = false;
+                return;
+            }
             stream >> m_msgSize;
         }
         else {
+            std::cout<< "bytesAvailable: " << socket->bytesAvailable() <<"\n";
+            std::cout<< "m_msgSize: " << m_msgSize <<"\n";
             if (socket->bytesAvailable() < m_msgSize)
                 return;
             QByteArray arr = socket->read(m_msgSize);
+            d_ptr->filter->updateStatus(RequestFilter::Request);
             QDateTime dt = QDateTime::currentDateTime();
 
             std::cout << "Time: "<<dt.toString(Qt::SystemLocaleDate).toStdString() <<" Received request " << m_msgSize <<" Byte:\n";
             std::cout << arr.toStdString() << "\n";
+
             m_msgSize = -1;
             QFutureWatcher<ClientCommandPtr> *watcher = new QFutureWatcher<ClientCommandPtr>;
-            connect(watcher, SIGNAL(finished()), this, SLOT(onResultReady()));
+            connect(watcher, SIGNAL(finished()), this, SLOT(onResultReady()), Qt::QueuedConnection);
             watcher->setFuture(QtConcurrent::run(Worker::executeClientRequest, arr));
         }
     }
@@ -145,6 +164,7 @@ void Client::onReadyRead()
 
 void Client::onDisconnected()
 {
+    std::cout<< "client disconnected\n";
     if(isAuthenticated()){
         d_ptr->server->removeClient(d_ptr->idUser);
     }

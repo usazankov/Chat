@@ -3,6 +3,7 @@
 
 #include "client.h"
 #include "server.h"
+#include "requestfilter.h"
 
 class Client;
 class Server;
@@ -17,6 +18,7 @@ public:
     bool isAuth;
     Client *q_ptr;
     Server *server;
+    RequestFilter *filter;
 };
 
 #endif // CLIENT_P_H

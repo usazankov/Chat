@@ -60,10 +60,13 @@ namespace chat {
     const static TYPE_STR E_MESSAGE = "e_message"; //Сообщение
     const static TYPE_STR E_USERS_LIST = "e_users_list"; //Список пользователей
 
+    const static TYPE_STR ID_MSG = "id_msg"; //Идентификатор запроса
+
     const static TYPE_STR CODE_RESP = "Code_resp"; //Код ответа сервера
 
     //Коды ответа сервера
     const static TYPE_STR USER_IS_NOT_REG = "user_is_not_reg"; //Пользователь не зарегистрирован
+    const static TYPE_STR TIMEOUT_LIMIT_EXCEEDED = "timeout_limit_exceeded"; //Превышен допустимый таймаут запросов
     const static TYPE_STR C_SUCCESS = "c_success"; //Успешное выполнение запроса
     const static TYPE_STR C_ERROR = "c_error"; //Ошибка выполнения запроса
 

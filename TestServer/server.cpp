@@ -4,6 +4,11 @@ Server::Server(QObject *parent) : QObject(parent)
 {
     m_ptcpServer.reset(new QTcpServer);
     qRegisterMetaType<ClientCommand>();
+#ifdef TEST
+    GlobalStorage::instance().addUser("user1");
+    GlobalStorage::instance().addUser("user2");
+    GlobalStorage::instance().addUser("user3");
+#endif
 }
 
 Server::~Server()

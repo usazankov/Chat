@@ -30,9 +30,7 @@ ClientCommandPtr GetListUsersHandler::data() const
             continue;
         QJsonObject user;
         user[chat::USER_ID] = QString::fromStdString(item);
-        QJsonObject user_obj;
-        user_obj.insert(chat::USER_OBJ, user);
-        arr.append(user_obj);
+        arr.append(user);
     }
     root.insert(chat::USERS_LIST, arr);
     chat::ChatRequest req(root);

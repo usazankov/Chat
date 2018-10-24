@@ -21,5 +21,8 @@ namespace Worker {
 
     //Создать ответ клиенту на то, что он не зарегистрирован
     chat::ChatRequest createRespToNotAuth(const QString userId = QString());
+
+    //Создать ответ клиенту, что превышен допустимый интервал запросов
+    chat::ChatRequest createRespToTimeout();
 }
 #endif // WORKER_H

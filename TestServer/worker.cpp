@@ -20,3 +20,10 @@ chat::ChatRequest Worker::createRespToNotAuth(const QString userId)
     req.addProperty(chat::CODE_RESP, chat::USER_IS_NOT_REG);
     return req;
 }
+
+chat::ChatRequest Worker::createRespToTimeout()
+{
+    chat::ChatRequest req;
+    req.addProperty(chat::CODE_RESP, chat::TIMEOUT_LIMIT_EXCEEDED);
+    return req;
+}
