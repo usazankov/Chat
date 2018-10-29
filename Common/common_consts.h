@@ -61,7 +61,6 @@ namespace chat {
     const static TYPE_STR E_USERS_LIST = "e_users_list"; //Список пользователей
 
     const static TYPE_STR ID_MSG = "id_msg"; //Идентификатор запроса
-
     const static TYPE_STR CODE_RESP = "Code_resp"; //Код ответа сервера
 
     //Коды ответа сервера

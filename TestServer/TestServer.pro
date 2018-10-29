@@ -45,7 +45,8 @@ SOURCES += main.cpp \
     Handlers/commanddecoratorhandler.cpp \
     Handlers/eventdecoratorhandler.cpp \
     Handlers/checkconnecthandler.cpp \
-    requestfilter.cpp
+    requestfilter.cpp \
+    Handlers/messageidhandler.cpp
 
 HEADERS += \
     server.h \
@@ -72,4 +73,5 @@ HEADERS += \
     Handlers/commanddecoratorhandler.h \
     Handlers/eventdecoratorhandler.h \
     Handlers/checkconnecthandler.h \
-    requestfilter.h
+    requestfilter.h \
+    Handlers/messageidhandler.h

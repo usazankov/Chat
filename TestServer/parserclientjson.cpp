@@ -44,5 +44,8 @@ ClientCommandPtr ParserClientJson::response()
     //Добавляем результат выполнения
     handler = new ErrorDecoratorHandler(handler);
 
+    //Добавляем идентификатор сообщения
+    handler = new MessageIdHandler(handler, &doc);
+
     return handler->data();
 }

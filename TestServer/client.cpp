@@ -6,7 +6,7 @@ Client::Client(Server *server, QTcpSocket *sock) : QObject(server), socket(sock)
     d_ptr->server = server;
     d_ptr->isAuth = false;
     d_ptr->filter = new RequestFilter;
-    d_ptr->filter->setExceededTick(1000);
+    d_ptr->filter->setExceededTick(0);
     d_ptr->filter->setExceededLimitFailReq(5);
     connect(socket,SIGNAL(readyRead()),this,SLOT(onReadyRead()), Qt::QueuedConnection);
     connect(socket,SIGNAL(disconnected()),this,SLOT(onDisconnected()));
