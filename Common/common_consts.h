@@ -63,6 +63,8 @@ namespace chat {
     const static TYPE_STR ID_MSG = "id_msg"; //Идентификатор запроса
     const static TYPE_STR CODE_RESP = "Code_resp"; //Код ответа сервера
 
+    const static TYPE_STR NO_MSG_ID = "no_msg_id"; //При таком значении в запросе id_msg сервер не будет отвечать id_msg
+
     //Коды ответа сервера
     const static TYPE_STR USER_IS_NOT_REG = "user_is_not_reg"; //Пользователь не зарегистрирован
     const static TYPE_STR TIMEOUT_LIMIT_EXCEEDED = "timeout_limit_exceeded"; //Превышен допустимый таймаут запросов

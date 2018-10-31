@@ -16,7 +16,8 @@ ClientCommandPtr MessageIdHandler::data() const
     QJsonObject obj = doc->object();
     if(obj.contains(chat::ID_MSG)){
         QString idMsg = obj.value(chat::ID_MSG).toString();
-        root->data.addProperty(chat::ID_MSG, idMsg);
+        if(idMsg != chat::NO_MSG_ID)
+            root->data.addProperty(chat::ID_MSG, idMsg);
     }
     return root;
 }
