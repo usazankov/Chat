@@ -11,6 +11,8 @@ public:
     // HandlerRequest interface
 public:
     ClientCommandPtr data() const;
+private:
+    void addMessageId(ClientCommandPtr root)const;
 };
 
 #endif // MESSAGEIDHANDLER_H
