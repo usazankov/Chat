@@ -31,7 +31,8 @@ void Client::execute(ClientCommandPtr com)
         writeToSocket(Worker::createRespToNotAuth().toRequest());
         return;
     }
-    if(com->type == server_consts::SendToThisClient){
+    if(com->type == server_consts::SendToThisClient ||
+            com->type == server_consts::AuthenticationClient){
         writeToSocket(com->data.toRequest());
     }else if(com->type == server_consts::SendToAllClient ||
              com->type == server_consts::SendToListClient){
@@ -74,11 +75,7 @@ bool Client::isAuthenticated(const ClientCommand &com)
             d_ptr->isAuth = true;
             d_ptr->idUser = userId;
             d_ptr->server->addClient(userId, this);
-
-            //После успешной авторизации возвращаем список пользователей
-            getUsersList();
         }
-        writeToSocket(com.data.toRequest());
     }
     return d_ptr->isAuth;
 #endif
