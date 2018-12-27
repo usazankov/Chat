@@ -31,10 +31,11 @@ private:
     QTcpSocket *socket;
     qint32 m_msgSize;
     void execute(ClientCommandPtr com);
-    bool isAuthenticated(const ClientCommand &com = ClientCommand());
+    bool isAuthenticated();
     void writeToSocket(const QByteArray &req);
     bool filterEvent(const ServerEvent &event);
     void getUsersList();
+    void authHandle(const ClientCommand &com);
 protected:
     ClientPrivate * const d_ptr;
     Client(ClientPrivate &dd, QObject *parent);

@@ -11,6 +11,11 @@ Client::Client(Server *server, QTcpSocket *sock) : QObject(server), socket(sock)
     connect(socket,SIGNAL(readyRead()),this,SLOT(onReadyRead()), Qt::QueuedConnection);
     connect(socket,SIGNAL(disconnected()),this,SLOT(onDisconnected()));
     m_msgSize = -1;
+#ifdef TEST
+    d_ptr->isAuth = true;
+    d_ptr->idUser = "Test_user";
+    d_ptr->server->addClient("Test_user", this);
+#endif
 }
 
 QTcpSocket *Client::getSocket()
@@ -104,6 +109,20 @@ void Client::getUsersList()
     event.type = ServerEvent::GetListUsers;
     event.data[chat::USER_ID] = d_ptr->idUser;
     onServerEvent(event);
+}
+
+void Client::authHandle(const ClientCommand &com)
+{
+    if(com.type == server_consts::AuthenticationClient){
+        if(com.result == server_consts::SUCCESS){
+            QString userId = com.params[chat::USER_ID].toString();
+            d_ptr->isAuth = true;
+            d_ptr->idUser = userId;
+            d_ptr->server->addClient(userId, this);
+            getUsersList();
+        }
+        writeToSocket(com.data.toRequest());
+    }
 }
 
 Client::Client(ClientPrivate &dd, QObject *parent):QObject(parent),d_ptr(&dd)
