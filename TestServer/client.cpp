@@ -32,13 +32,14 @@ void Client::execute(ClientCommandPtr com)
 {
     if(com.isNull())
         return;
-    if(!isAuthenticated(*com)){
+    if(!isAuthenticated()){
         writeToSocket(Worker::createRespToNotAuth().toRequest());
         return;
     }
-    if(com->type == server_consts::SendToThisClient ||
-            com->type == server_consts::AuthenticationClient){
+    if(com->type == server_consts::SendToThisClient){
         writeToSocket(com->data.toRequest());
+    }else if(com->type == server_consts::AuthenticationClient){
+        authHandle(*com);
     }else if(com->type == server_consts::SendToAllClient ||
              com->type == server_consts::SendToListClient){
         if(d_ptr->server->executeCommand(d_ptr->idUser, *com)){
@@ -63,27 +64,9 @@ void Client::execute(ClientCommandPtr com)
     }
 }
 
-bool Client::isAuthenticated(const ClientCommand &com)
+bool Client::isAuthenticated()
 {
-
-#ifdef TEST
-    d_ptr->isAuth = true;
-    d_ptr->idUser = "Test_user";
-    d_ptr->server->addClient("Test_user", this);
     return d_ptr->isAuth;
-#else
-    if(com.type == server_consts::AuthenticationClient){
-        if(com.result == server_consts::SUCCESS){
-            QString userId = com.params[chat::USER_ID].toString();
-            if(userId.isNull())
-                return false;
-            d_ptr->isAuth = true;
-            d_ptr->idUser = userId;
-            d_ptr->server->addClient(userId, this);
-        }
-    }
-    return d_ptr->isAuth;
-#endif
 }
 
 void Client::writeToSocket(const QByteArray &req)
@@ -119,7 +102,6 @@ void Client::authHandle(const ClientCommand &com)
             d_ptr->isAuth = true;
             d_ptr->idUser = userId;
             d_ptr->server->addClient(userId, this);
-            getUsersList();
         }
         writeToSocket(com.data.toRequest());
     }
